@@ -1,16 +1,19 @@
+import { FormData } from './components/FormData'
 import './App.css'
+import { Sidebar } from './components/Sidebar'
 
 const App = () => {
 
   return (
-    <section className='w-full max-w-md flex justify-center border-1'>
+    <section className='grid grid-cols-5 container mx-auto h-dvh items-center'>
+      <div className=''>
+        <Sidebar />
+      </div>
+      <div className='col-span-3'>
+        <FormData />
+      </div>
       <div>
-        <div>
-          <h1 className='text-2xl font-bold'>Nombre Apellido</h1>
-        </div>
-        <div>
-          <p>Descripcion</p>
-        </div>
+        Mostrar cambios en el CV
       </div>
     </section>
   )
