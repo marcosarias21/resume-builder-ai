@@ -1,12 +1,12 @@
-const Sidebar = () => {
+import React from "react"
+import { useSectionsStore } from "../../store/store"
+
+type Prop = { section: string, popover: string, icon: string }
+
+const Sidebar: React.FC<Prop> = ({ section, popover }) => {
+  const { updateCurrentSection } = useSectionsStore()
   return (
-    <div className="flex flex-col gap-4">
-      <div>Icon w/Popover</div>
-      <div>Icon w/Popover</div>
-      <div>Icon w/Popover</div>
-      <div>Icon w/Popover</div>
-      <div>Icon w/Popover</div>
-    </div>
+     <button onClick={() => updateCurrentSection(section)} className="bg-red-300 rounded w-50 py-2 text-white cursor-pointer hover:bg-red-200 hover:transition-colors" type="button">{popover}</button>
   )
 }
 
