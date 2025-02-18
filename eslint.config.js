@@ -25,6 +25,7 @@ export default [
       ...tseslint.configs.recommended.rules,
       ...pluginReact.configs.recommended.rules,
       "react/react-in-jsx-scope": "off",
+      "no-unused-vars": "off"
     },
   },
 ];
