@@ -1,12 +1,20 @@
-import React from "react"
-import { useSectionsStore } from "../../store/store"
+import React, { ReactNode } from "react"
+import { useSectionsStore } from "../../store/sectionStore"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 
-type Prop = { section: string, popover: string, icon: string }
+type Prop = { section: string, popover: string, icon: ReactNode }
 
-const Sidebar: React.FC<Prop> = ({ section, popover }) => {
-  const { updateCurrentSection } = useSectionsStore()
+const Sidebar: React.FC<Prop> = ({ section, popover, icon }) => {
+  const { updateCurrentSection, currentSection } = useSectionsStore()
   return (
-     <button onClick={() => updateCurrentSection(section)} className="bg-red-300 rounded w-50 py-2 text-white cursor-pointer hover:bg-red-200 hover:transition-colors" type="button">{popover}</button>
+    <div>
+     <button onClick={() => updateCurrentSection(section)} className={`bg-black/20 w-auto p-4 text-white cursor-pointer hover:bg-purple-200 hover:transition-colors, ${currentSection === section &&'bg-purple-500'}`} type="button">
+        <HoverCard>
+          <HoverCardTrigger>{icon}</HoverCardTrigger>
+          <HoverCardContent side="right">{popover}</HoverCardContent>
+        </HoverCard>
+      </button>
+    </div>
   )
 }
 
