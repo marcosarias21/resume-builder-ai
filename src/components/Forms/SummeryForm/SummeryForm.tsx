@@ -1,10 +1,10 @@
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@radix-ui/react-hover-card"
 import { useForm } from "react-hook-form"
+import { summarySchema } from "@/schemas/formsSchema"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useDataStore } from "@/store/dataStore"
-import { summarySchema } from "@/schemas/formsSchema"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
-import { Button } from "../ui/button"
+import { Button } from "@/components/ui/button"
 
 const SummeryForm = () => {
   const { saveData, data } = useDataStore()
