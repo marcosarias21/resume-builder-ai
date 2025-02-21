@@ -1,8 +1,8 @@
 import { useForm } from "react-hook-form"
-import { personalInfoSchema } from "../../schemas/formsSchema"
+import { personalInfoSchema } from "../../../schemas/formsSchema"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Button } from "../ui/button"
+import { Button } from "../../ui/button"
 import { useDataStore } from "@/store/dataStore"
 
 const PersonalInfoForm = () => {
@@ -32,6 +32,7 @@ const PersonalInfoForm = () => {
                     placeholder='Marcos'
                     type='text'
                     {...register('firstName')}
+                    onChange={e => saveData({ firstName: e.target.value })}
                     required
                   />
                 </div>
@@ -51,6 +52,8 @@ const PersonalInfoForm = () => {
                     placeholder='example@example.com'
                     type='email'
                     {...register('email')}
+                    onChange={e => saveData({ email: e.target.value })}
+
                     required
                   />
                 </div>
@@ -66,7 +69,7 @@ const PersonalInfoForm = () => {
                   <input
                     className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
                     {...register('phone')}
-                    required
+                    onChange={e => saveData({ phone: e.target.value })}                    
                     placeholder='+1-000-000-0000'
                     type='tel'
                   />
@@ -85,6 +88,7 @@ const PersonalInfoForm = () => {
                   <input
                     className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
                     {...register('lastName')}
+                    onChange={e => saveData({ lastName: e.target.value })}
                     required
                     placeholder='Arias'
                     type='text'
@@ -103,7 +107,7 @@ const PersonalInfoForm = () => {
                     className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
                     placeholder='City, Country'
                     {...register('location')}
-                    required
+                    onChange={e => saveData({ location: e.target.value })}                    
                     type='text'
                   />
                 </div>
@@ -120,6 +124,7 @@ const PersonalInfoForm = () => {
                     className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
                     placeholder='Address, Number'
                     {...register('address')}
+                    onChange={e => saveData({ address: e.target.value })}
                     type='text'
                   />
                 </div>
