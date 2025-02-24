@@ -1,4 +1,4 @@
-import { NotebookPen, UserRound } from "lucide-react";
+import { NotebookPen, PenToolIcon, UserRound } from "lucide-react";
 import { ReactNode } from "react";
 
 interface Prop {
@@ -12,19 +12,19 @@ export const sidebarInfo: Prop[] = [
   {
     id: 0,
     section: 'personalInfo',
-    popover: 'Personal Information',
+    popover: 'Personal Information Form',
     icon: <UserRound />
   },
   {
     id: 1,
     section: 'summery',
-    popover: 'Summery',
+    popover: 'Summery Form',
     icon: <NotebookPen />
   },
   {
     id: 2,
     section: 'skills',
-    popover: 'Skills',
-    icon: ''
+    popover: 'Skills Form',
+    icon: <PenToolIcon />
   }
 ]
