@@ -25,13 +25,13 @@ const App = () => {
           </HoverCard>
         </div>
       </div>
-      <div className='col-span-7 w-full h-full'>
+      <div className='col-span-6 w-full h-full'>
         <div className='flex flex-col h-full w-full justify-center'>
           <h2 className='text-4xl font-bold'>{sectionsData[currentSection].title}</h2>
           {sectionsData[currentSection].comp}
         </div>
       </div>
-      <div className='ml-20 h-full w-full col-span-4 overflow-hidden py-5'>
+      <div className='ml-20 h-full w-full col-span-4 py-5'>
         {isWatched &&  <LiveTemplateCV />}    
       </div>
     </section>
