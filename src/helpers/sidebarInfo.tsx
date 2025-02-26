@@ -1,4 +1,4 @@
-import { NotebookPen, PenToolIcon, UserRound } from "lucide-react";
+import { Brain, FolderKanban, NotebookPen, UserRound } from "lucide-react";
 import { ReactNode } from "react";
 
 interface Prop {
@@ -24,7 +24,13 @@ export const sidebarInfo: Prop[] = [
   {
     id: 2,
     section: 'skills',
-    popover: 'Skills Form',
-    icon: <PenToolIcon />
+    popover: 'Technical Skills',
+    icon: <Brain />
+  },
+  {
+    id: 3,
+    section: 'projects',
+    popover: 'Projects',
+    icon: <FolderKanban />
   }
 ]
