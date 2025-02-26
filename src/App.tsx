@@ -1,12 +1,12 @@
-import { WatchIcon } from 'lucide-react'
-import './App.css'
+import { useState } from 'react'
+import { Eye} from 'lucide-react'
 import { LiveTemplateCV } from './components/LiveTemplateCV'
 import { Sidebar } from './components/Sidebar'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from './components/ui/hover-card'
 import { sectionsData } from './helpers/sectionsData'
 import { sidebarInfo } from './helpers/sidebarInfo'
 import { useSectionsStore } from './store/sectionStore'
-import { useState } from 'react'
+import './App.css'
 
 const App = () => {
   const { currentSection } = useSectionsStore()
@@ -18,20 +18,22 @@ const App = () => {
         {sidebarInfo.map(info => <Sidebar key={info.id} {...info} />)}
         <div className='mt-5'>
           <HoverCard>
-            <button onClick={() => setIsWatched(!isWatched)} className={`bg-black/20 p-4 text-white cursor-pointer hover:bg-purple-200 hover:transition-colors ${isWatched && 'bg-purple-500'}`}>
-              <HoverCardTrigger><WatchIcon /></HoverCardTrigger>
-            </button>
-            <HoverCardContent side="right">Live CV</HoverCardContent>
+            <HoverCardTrigger>
+              <button onClick={() => setIsWatched(!isWatched)} className={`bg-black/20 p-4 text-white cursor-pointer hover:bg-purple-200 hover:transition-colors ${isWatched && 'bg-purple-500'}`}>
+                  <Eye />
+              </button>
+            </HoverCardTrigger>
+            <HoverCardContent className='ml-1 mb-3' side="right">Live Preview</HoverCardContent>
           </HoverCard>
         </div>
       </div>
-      <div className='col-span-6 w-full h-full'>
+      <div className={`w-full h-full ${isWatched ? 'col-span-7': 'col-span-9'}`}>
         <div className='flex flex-col h-full w-full justify-center'>
           <h2 className='text-4xl font-bold'>{sectionsData[currentSection].title}</h2>
           {sectionsData[currentSection].comp}
         </div>
       </div>
-      <div className='ml-20 h-full w-full col-span-4 py-5'>
+      <div className={`ml-20 h-full w-full py-5 ${isWatched && 'col-span-4'}`}>
         {isWatched &&  <LiveTemplateCV />}    
       </div>
     </section>
