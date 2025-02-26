@@ -1,6 +1,11 @@
 import { create } from "zustand";
 
 type Skill = string
+interface Project {
+  name: string
+  techStack: string
+  listDescription: string[]
+}
 
 type ObjectData = {
   firstName?: string
@@ -12,6 +17,7 @@ type ObjectData = {
   phone?: string
   summery?: string 
   skills?: Skill[]
+  projects?: Project[] | Project
 }
 
 interface State {

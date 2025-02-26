@@ -1,4 +1,5 @@
 import { PersonalInfoForm } from "@/components/Forms/PersonalInfoForm";
+import { ProjectsForm } from "@/components/Forms/ProjectsForm";
 import { SkillsForm } from "@/components/Forms/SkillsForm";
 import { SummeryForm } from "@/components/Forms/SummeryForm";
 import { ReactNode } from "react";
@@ -15,8 +16,13 @@ export const sectionsData: Record<string, {id: number, title: string, comp: Reac
       comp: <SummeryForm />
     },
     skills: {
-      id: 1,
+      id: 2,
       title: 'Skills',
       comp: <SkillsForm />
+    },
+    projects: {
+      id: 3,
+      title: 'Projects',
+      comp: <ProjectsForm />
     }
 }

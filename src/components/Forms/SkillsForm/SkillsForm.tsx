@@ -1,12 +1,11 @@
 import { Button } from "@/components/ui/button"
+import { examplesSkills } from "@/helpers/examples"
 import { skillsSchema } from "@/schemas/formsSchema"
 import { useDataStore } from "@/store/dataStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
-const EXAMPLES = ["Eg: React", "Eg: SQL", "Eg:Typescript"]
 
 const SkillsForm = () => {
   const { register, handleSubmit } = useForm<z.infer<typeof skillsSchema>>({
@@ -41,10 +40,9 @@ const SkillsForm = () => {
                     <label htmlFor="skills">Name</label>
                     <input
                       className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                      placeholder={EXAMPLES[index] ? EXAMPLES[index] : "Eg: ..."}                     
+                      placeholder={examplesSkills[index] ? examplesSkills[index] : "Eg: ..."}                     
                       type='text'
                       {...register(`skills.${index}`)}
-                      
                     />
                   </div>   
                 </div>
