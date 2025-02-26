@@ -18,3 +18,13 @@ export const summarySchema = z.object({
 export const skillsSchema = z.object({
   skills: z.array(z.string())
 })
+
+
+export const ProjectsSchema = z.object({
+  project: z.array(
+    z.object({
+    name: z.string(),
+    techStack: z.string(),
+    listDescription: z.array(z.string())
+  }))
+})
