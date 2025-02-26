@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
 import { examplesSkills } from "@/helpers/examples"
+import useActionForm from "@/hooks/useActionForm"
 import { skillsSchema } from "@/schemas/formsSchema"
 import { useDataStore } from "@/store/dataStore"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,14 +14,7 @@ const SkillsForm = () => {
   })
   const { saveData  } = useDataStore()
   const [skillsArray, setSkillsArray] = useState(Array(3).fill(null))
-
-  const addMoreSkills = () => {
-    setSkillsArray([...skillsArray, null])
-  }
-
-  const removeSkill = () => {
-    setSkillsArray(skillsArray.slice(0, -1))
-  }
+  const { addArray, removeArray } = useActionForm({ array: skillsArray, setArray: setSkillsArray })
 
   const onSubmit = (values:  z.infer<typeof skillsSchema>) => {
     saveData(values)
@@ -51,8 +45,8 @@ const SkillsForm = () => {
           </div>              
           <div className="flex justify-between mt-20">
           <div className="flex gap-2">
-            <Button onClick={addMoreSkills} type="button" className="text-purple-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>+ Add More Skills</Button>
-            <Button onClick={removeSkill} type="button" className="text-purple-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>- Remove</Button>
+            <Button onClick={addArray} type="button" className="text-purple-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>+ Add More Skills</Button>
+            <Button onClick={removeArray} type="button" className="text-purple-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>- Remove</Button>
           </div>
           <Button type="submit" className="text-white text-lg bg-purple-500" size={"lg"}>Save</Button>
           </div>

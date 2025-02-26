@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { ProjectsSchema } from "@/schemas/formsSchema";
 import { examplesProjects } from "@/helpers/examples";
 import { generateDescription } from "@/serivces/AIGenerativeText";
+import useActionForm from "@/hooks/useActionForm";
 
 const ProjectsForm = () => {
   const { handleSubmit, register, control, watch } = useForm<z.infer<typeof ProjectsSchema>>({
@@ -17,6 +18,7 @@ const ProjectsForm = () => {
   const [inputValue, setInputValue] = useState<any[] & string[]>([])
   const prompt = "Mejorame esta breve descripcion como fuera un curriculum, solo dame una descripcion: "
   const values = watch()
+  const { addArray, removeArray } = useActionForm({array: descriptionArray, setArray: setDescriptionArray})
 
   const onSubmit = (values: z.infer<typeof ProjectsSchema>) => {
     console.log(values);
@@ -32,17 +34,6 @@ const ProjectsForm = () => {
   const removeProject = () => {
     remove(currentIndex)
     setCurrentIndex(currentIndex - 1)
-  }
-  
-  const addPointDescription = () => {
-    setDescriptionArray([...descriptionArray, null])
-  }
-
-  const removePointDescription = () => {
-    if (descriptionArray.length > 3) {
-      setDescriptionArray(descriptionArray.slice(0, -1))
-    }
-    if(descriptionArray.length == 3) alert('Minimun are 3 descriptions points')
   }
 
   const betterTextWithAI = async (text: string, index: number) => {
@@ -102,10 +93,10 @@ const ProjectsForm = () => {
             )}
             </div>
             <div className="flex gap-2 justify-center">
-              <button onClick={removePointDescription} type="button" className="border-1 border-gray-200 text-purple-500 px-4 py-2 rounded">
+              <button onClick={removeArray} type="button" className="border-1 border-gray-200 text-purple-500 px-4 py-2 rounded">
                 -
               </button>
-              <button onClick={addPointDescription} type="button" className="text-white bg-purple-500 px-4 py-2 rounded">
+              <button onClick={addArray} type="button" className="text-white bg-purple-500 px-4 py-2 rounded">
                 +
               </button>
             </div>
