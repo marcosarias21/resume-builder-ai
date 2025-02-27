@@ -28,3 +28,14 @@ export const ProjectsSchema = z.object({
     listDescription: z.array(z.string())
   }))
 })
+
+export const workSchema = z.object({
+  works: z.array(
+    z.object({
+    position: z.string(),
+    workCompany: z.string(),
+    start: z.string(),
+    end: z.string(),
+    summery: z.string()
+  }))
+})
