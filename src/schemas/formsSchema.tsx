@@ -1,30 +1,32 @@
 import { z } from "zod";
 
 export const personalInfoSchema = z.object({
-  firstName: z.string(),
-  lastName: z.string(),
-  jobTitle: z.string(),
-  email: z.string().email(),
+  firstName: z.string().min(1, "First name is required"),
+  lastName: z.string().min(1, "Last name is required"),
+  email: z.string().email("Invalid email"),
   phone: z.string().optional(),
-  location: z.string(),
+  jobTitle: z.string().min(1, "Job title is required"),
+  location: z.string().min(1, "Location is required"),
   address: z.string().optional()
-})
+});
 
 
 export const summarySchema = z.object({
-  summery: z.string()
+  summery: z.string().optional()
 })
 
 export const skillsSchema = z.object({
-  skills: z.array(z.string())
+  skills: z.array(z.string().min(1,{ message: "Each skills must be had at least one character"})).min(3, {message: "Minimun 3 skills are required"})
 })
 
 
 export const ProjectsSchema = z.object({
   project: z.array(
     z.object({
-    name: z.string(),
-    techStack: z.string(),
+    name: z.string().min(1, "Project name is required"),
+    techStack: z.string().min(1, "Tech stack is required"),
+    demo: z.string().optional(),
+    repository: z.string().optional(),
     listDescription: z.array(z.string())
   }))
 })

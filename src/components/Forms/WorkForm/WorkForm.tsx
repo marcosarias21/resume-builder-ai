@@ -1,7 +1,9 @@
+import { Spinner } from "@/components/Spinner"
 import { Button } from "@/components/ui/button"
 import { workSchema } from "@/schemas/formsSchema"
 import { generateDescription } from "@/serivces/AIGenerativeText"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Brain, MoveRight, Save } from "lucide-react"
 import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
@@ -34,7 +36,7 @@ const WorkForm = () => {
   }
 
   return (
-    <div className='min-h-[50%] w-full bg-white border-1 border-gray-300 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
+    <div className='min-h-[50%] w-full bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
         <form onSubmit={handleSubmit(onSubmit)} className='gap-6 min-h-[100%]'>             
           <div>
             <div className="flex justify-between items-center my-4">
@@ -86,7 +88,7 @@ const WorkForm = () => {
                   <div className="w-full p-1">
                     <div className="flex items-center justify-between my-4">
                       <label className="font-medium">Summery</label>
-                      <Button type="button" onClick={() =>generateText(index)} className="bg-purple-500">Generate w/AI</Button>
+                      <Button type="button" onClick={() =>generateText(index)} ><Brain />Generate from AI {loading && <Spinner />}</Button>
                     </div>
                     {loading ? 
                      <div className="w-full min-h-52 rounded-lg border-1 p-5"><p className="animate-pulse text-gray-500">Generando texto...</p></div>
@@ -98,12 +100,21 @@ const WorkForm = () => {
               </div>
              ))}
           </div>              
-          <div className="flex justify-between mt-20">
-          <div className="flex gap-2">
-            <Button  onClick={() => append({ position: "",workCompany: "", start: "", end: "", summery: "" })} type="button" className="text-purple-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>+ Add More Work Experiences</Button>
-            <Button type="button" onClick={() => remove(-1)} className="text-purple-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>- Remove</Button>
+          <div className="flex justify-between my-10">
+            <div className="flex gap-2">
+              <Button  onClick={() => append({ position: "",workCompany: "", start: "", end: "", summery: "" })} type="button" className="text-blue-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>+ Add More Work Experiences</Button>
+              <Button type="button" onClick={() => remove(-1)} className="text-red-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>- Remove</Button>
+            </div>
           </div>
-            <Button type="submit" className="text-white text-lg bg-purple-500" size={"lg"}>Save</Button>
+          <div className="flex justify-center">
+            <Button className="bg-green-400 text-sm font-medium" size={"sm"} type="submit">
+              <Save /> Save Work Experience
+            </Button>
+          </div>
+          <div className="flex justify-end">
+            <Button className="bg-blue-400 text-sm font-medium text-end" size={"sm"} type="submit">
+              <MoveRight /> Continue
+            </Button>
           </div>
         </form>
       </div>
