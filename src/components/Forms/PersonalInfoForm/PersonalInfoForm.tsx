@@ -1,159 +1,113 @@
-import { useForm } from "react-hook-form"
-import { personalInfoSchema } from "../../../schemas/formsSchema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { z } from "zod"
-import { Button } from "../../ui/button"
-import { useDataStore } from "@/store/dataStore"
+import { useForm } from "react-hook-form";
+import { personalInfoSchema } from "../../../schemas/formsSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "../../ui/button";
+import { useDataStore } from "@/store/dataStore";
+import { Asterisk, MoveRight } from "lucide-react";
 
 const PersonalInfoForm = () => {
-  const { saveData, data } = useDataStore()
-  const { register, handleSubmit } = useForm<z.infer<typeof personalInfoSchema>>({
-    resolver: zodResolver(personalInfoSchema)
+  const { saveData } = useDataStore();
+
+  const { register, handleSubmit, formState: { isValid, errors }} = useForm<z.infer<typeof personalInfoSchema>>({
+    resolver: zodResolver(personalInfoSchema),
+    mode: "onChange",
   })
-  
+
   const onSubmit = (values: z.infer<typeof personalInfoSchema>) => {
-    saveData(values)
+    saveData(values);
+    alert("Datos guardados correctamente!")
   }
 
   return (
-        <div className='min-h-[50%] bg-white border-1 border-gray-300 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10 w-full'>
-          <form onSubmit={handleSubmit(onSubmit)} className='grid grid-cols-1 sm:grid-cols-2 gap-6 w-full'>
-            <div>
-              <div className='mt-4'>
-                <label
-                  className='block text-lg font-bold text-gray-700 dark:text-neutral-200'
-                  htmlFor='firstName'
-                >
-                  First Name
-                </label>
-                <div className='mt-1'>
-                  <input
-                    className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                    placeholder='Marcos'
-                    type='text'
-                    {...register('firstName')}
-                    onChange={e => saveData({ firstName: e.target.value })}
-                    required
-                  />
-                </div>
-              </div>
-              <div className='mt-4'>
-                <label
-                  className='block text-lg font-bold text-gray-700 dark:text-neutral-200'
-                  htmlFor='jobTitle'
-                >
-                  Job Title
-                </label>
-                <div className='mt-1'>
-                  <input
-                    className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                    placeholder='Eg: Engineer Front End'
-                    type='text'
-                    {...register('jobTitle')}
-                    onChange={e => saveData({ jobTitle: e.target.value })}
-                    required
-                  />
-                </div>
-              </div>
-              <div className='mt-4'>
-                <label
-                  className='block text-lg font-bold text-gray-700 dark:text-neutral-200'
-                  htmlFor='email'
-                >
-                  Email
-                </label>
-                <div className='mt-1'>
-                  <input
-                    autoComplete='email'
-                    className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                    id='email'
-                    placeholder='example@example.com'
-                    type='email'
-                    {...register('email')}
-                    onChange={e => saveData({ email: e.target.value })}
-
-                    required
-                  />
-                </div>
-              </div>
-              <div className='mt-4'>
-                <label
-                  className='block text-lg font-bold text-gray-700 dark:text-neutral-200'
-                  htmlFor='phone'
-                >
-                  Phone Number (Optional)
-                </label>
-                <div className='mt-1'>
-                  <input
-                    className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                    {...register('phone')}
-                    onChange={e => saveData({ phone: e.target.value })}                    
-                    placeholder='+1-000-000-0000'
-                    type='tel'
-                  />
-                </div>
-              </div>  
+    <div className="min-h-[60%] bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-lg rounded-lg p-6 lg:p-10 w-full">
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:grid-cols-2 gap-6 w-full">
+        <div className="h-full grid grid-cols-2 gap-3">
+          <div className="mt-4">
+            <label className="flex items-center text-md font-bold text-gray-700 dark:text-neutral-200" htmlFor="firstName">First Name <span><Asterisk className="text-red-500" size={14} /></span></label>
+            <div className="mt-1">
+              <input className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400" placeholder="Marcos" type="text" {...register("firstName", { required: true })} />
+              {errors.firstName &&<p className="text-red-500 text-sm mt-1">This field is required</p>}
             </div>
-            <div>
-            <div className='mt-4'>
-                <label
-                  className='block text-lg font-bold text-gray-700 dark:text-neutral-200'
-                  htmlFor='portfolio-link'
-                >
-                  Last Name
-                </label>
-                <div className='mt-1'>
-                  <input
-                    className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                    {...register('lastName')}
-                    onChange={e => saveData({ lastName: e.target.value })}
-                    required
-                    placeholder='Arias'
-                    type='text'
-                  />
-                </div>
-              </div>
-              <div className='mt-4'>
-                <label
-                  className='block text-lg font-bold text-gray-700 dark:text-neutral-200'
-                  htmlFor='location'
-                >
-                  Location
-                </label>
-                <div className='mt-1'>
-                  <input
-                    className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                    placeholder='City, Country'
-                    {...register('location')}
-                    onChange={e => saveData({ location: e.target.value })}                    
-                    type='text'
-                  />
-                </div>
-              </div>
-              <div className='mt-4'>
-                <label
-                  className='block text-lg font-bold text-gray-700 dark:text-neutral-200'
-                  htmlFor='location'
-                >
-                  Address (Optional)
-                </label>
-                <div className='mt-1'>
-                  <input
-                    className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                    placeholder='Address, Number'
-                    {...register('address')}
-                    onChange={e => saveData({ address: e.target.value })}
-                    type='text'
-                  />
-                </div>
-              </div>
-              <div className="text-end mt-20">
-                <Button className="bg-purple-500 text-lg font-bold" size={"lg"} type="submit">Save</Button>  
-              </div>
+          </div>
+          <div className="mt-4">
+            <label className="flex items-center text-md font-bold text-gray-700 dark:text-neutral-200" htmlFor="lastName">Last Name <span><Asterisk className="text-red-500" size={14} /></span>  </label>
+            <div className="mt-1">
+              <input className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400" placeholder="Arias" type="text" {...register("lastName", { required: true })} />
+              {errors.lastName && <p className="text-red-500 text-sm mt-1">This field is required</p>}
             </div>
-          </form>
+          </div>
+          <div className="mt-2">
+            <label className="flex items-center text-md font-bold text-gray-700 dark:text-neutral-200" htmlFor="email">Email <span><Asterisk className="text-red-500" size={14} /></span>
+            </label>
+            <div className="mt-1">
+              <input autoComplete="email" className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400" placeholder="example@example.com" type="email" {...register("email", { required: true })}/>
+              {errors.email &&<p className="text-red-500 text-sm mt-1">This field is required</p>}
+            </div>
+          </div>
+          <div className="mt-2">
+            <label className="block text-md font-bold text-gray-700 dark:text-neutral-200" htmlFor="phone">
+              Phone Number (Optional)
+            </label>
+            <div className="mt-1">
+              <input
+                className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
+                placeholder="+1-000-000-0000"
+                type="text"
+                {...register("phone")}
+              />
+            </div>
+          </div>
+          <div className="mt-2">
+            <label className="flex items-center text-md font-bold text-gray-700 dark:text-neutral-200" htmlFor="jobTitle">Job Title<span><Asterisk className="text-red-500" size={14} /></span></label>
+            <div className="mt-1">
+              <input className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400" placeholder="Eg: Engineer Front End" type="text" {...register("jobTitle", { required: true })} />
+              {errors.jobTitle && (
+                <p className="text-red-500 text-sm mt-1">This field is required</p>
+              )}
+            </div>
+          </div>
+          <div className="mt-2">
+            <label className="flex items-center text-md font-bold text-gray-700 dark:text-neutral-200" htmlFor="location">Location<span><Asterisk className="text-red-500" size={14} /></span></label>
+            <div className="mt-1">
+              <input
+                className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
+                placeholder="City, Country"
+                type="text"
+                {...register("location", { required: true })}
+              />
+              {errors.location && (
+                <p className="text-red-500 text-sm mt-1">This field is required</p>
+              )}
+            </div>
+          </div>
+          <div className="mt-2">
+            <label className="block text-md font-bold text-gray-700 dark:text-neutral-200" htmlFor="address">
+              Address (Optional)
+            </label>
+            <div className="mt-1">
+              <input
+                className="py-3 px-4 block w-full border rounded-lg text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
+                placeholder="Address, Number"
+                type="text"
+                {...register("address")}
+              />
+            </div>
+          </div>
         </div>
-  )
-}
+        <div className="w-full flex flex-col items-end justify-center">
+          <div className="text-center">
+            <Button className="bg-green-400 text-sm font-medium" size={"sm"} type="submit" disabled={!isValid}>
+              <MoveRight /> Save & Continue
+            </Button>
+          </div>
+          <div className="text-center">
+            <p className="text-xs text-amber-400">Make sure you saved before continue</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  );
+};
 
-export default PersonalInfoForm
+export default PersonalInfoForm;
