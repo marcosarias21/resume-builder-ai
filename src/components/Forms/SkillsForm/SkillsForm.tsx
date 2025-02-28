@@ -4,13 +4,15 @@ import useActionForm from "@/hooks/useActionForm"
 import { skillsSchema } from "@/schemas/formsSchema"
 import { useDataStore } from "@/store/dataStore"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Asterisk, MoveRight, Save } from "lucide-react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 const SkillsForm = () => {
-  const { register, handleSubmit } = useForm<z.infer<typeof skillsSchema>>({
-    resolver: zodResolver(skillsSchema)
+  const { register, handleSubmit, formState: {errors, isValid} } = useForm<z.infer<typeof skillsSchema>>({
+    resolver: zodResolver(skillsSchema),
+    mode: "onChange"
   })
   const { saveData  } = useDataStore()
   const [skillsArray, setSkillsArray] = useState(Array(3).fill(null))
@@ -21,7 +23,7 @@ const SkillsForm = () => {
   }
 
   return (
-    <div className='min-h-[50%] w-full bg-white border-1 border-gray-300 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
+    <div className='min-h-[50%] w-full bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
         <form onSubmit={handleSubmit(onSubmit)} className='gap-6 min-h-[100%]'>             
           <div>
             <div className="flex justify-between items-center my-4">
@@ -31,24 +33,33 @@ const SkillsForm = () => {
               <div key={index} className="mb-1">
                 <div className="flex justify-between border-1 rounded-2xl p-5">
                   <div className="flex flex-col p-1 w-full">
-                    <label htmlFor="skills">Name</label>
-                    <input
-                      className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
-                      placeholder={examplesSkills[index] ? examplesSkills[index] : "Eg: ..."}                     
-                      type='text'
-                      {...register(`skills.${index}`)}
-                    />
+                    <label htmlFor="skills" className="font-medium flex items-center">Skill<span><Asterisk className="text-red-500" size={14} /></span>:</label>
+                    <input className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm ffocus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400'
+                    placeholder={examplesSkills[index] ? examplesSkills[index] : "Eg: ..."} type='text' {...register(`skills.${index}`, { required: true })} />
                   </div>   
                 </div>
               </div>
              ))}
           </div>              
-          <div className="flex justify-between mt-20">
-          <div className="flex gap-2">
-            <Button onClick={addArray} type="button" className="text-purple-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>+ Add More Skills</Button>
-            <Button onClick={removeArray} type="button" className="text-purple-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>- Remove</Button>
+          {errors.skills && (<p className="text-red-500 text-sm mt-2">Fill in all fields to save!</p>)}
+          <div className="flex justify-between mt-2">
+            <div className="flex gap-2">
+              <Button onClick={addArray} type="button" className="text-blue-400 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>+ Add More Skills</Button>
+              <Button onClick={removeArray} type="button" className="text-blue-400 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>- Remove</Button>
+            </div>
           </div>
-          <Button type="submit" className="text-white text-lg bg-purple-500" size={"lg"}>Save</Button>
+          <div className="flex w-full justify-center">
+            <div className="text-center">
+              <Button disabled={!isValid} className="bg-green-400 text-sm font-medium" size={"sm"} type="submit">
+                <Save />Save Skills
+              </Button>              
+            </div>
+          </div>
+          <div className="text-end">
+            <Button className="bg-blue-400 text-sm font-medium" size={"sm"} type="button">
+              <MoveRight />Continue
+            </Button>
+           <p className="text-xs text-amber-400">Make sure to save before continue</p>
           </div>
         </form>
       </div>
