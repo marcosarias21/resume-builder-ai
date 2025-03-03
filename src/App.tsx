@@ -19,7 +19,7 @@ const App = () => {
         <div className='mt-5'>
           <HoverCard>
             <HoverCardTrigger>
-              <button onClick={() => setIsWatched(!isWatched)} className={`bg-black/20 p-4 text-white cursor-pointer hover:bg-purple-200 hover:transition-colors ${isWatched && 'bg-purple-500'}`}>
+              <button onClick={() => setIsWatched(!isWatched)} className={`bg-black/20 p-4 text-white cursor-pointer hover:bg-blue-300 hover:transition-colors ${isWatched && 'bg-blue-400'}`}>
                   <Eye />
               </button>
             </HoverCardTrigger>
