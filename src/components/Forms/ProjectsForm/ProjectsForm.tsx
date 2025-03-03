@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button";
 import { Asterisk, BrainCogIcon, MoveRight, Save } from "lucide-react";
 import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
+import { Spinner } from "@/components/Spinner";
 
 const ProjectsForm = () => {
   const { handleSubmit, register, control, watch, formState: { isValid, errors }, setValue } = useForm<z.infer<typeof ProjectsSchema>>({
@@ -23,7 +24,7 @@ const ProjectsForm = () => {
   const [descriptionArray, setDescriptionArray] = useState(Array(3).fill(null))
   const [inputValue, setInputValue] = useState<any[] & string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
-  const prompt = "Mejorame esta breve descripcion como fuera un curriculum, solo dame una descripcion: "
+  const prompt = "Please improve this brief description in relation to an application made, as if it were a resume, just give me a brief description:"
   const values = watch()
   const { addArray, removeArray } = useActionForm({array: descriptionArray, setArray: setDescriptionArray})
 
@@ -34,10 +35,13 @@ const ProjectsForm = () => {
   };
 
   const addProject = () => {
-    if (fields.length < 6) {
+    if (fields.length < 3) {
       append({ name: "", techStack: "", listDescription: ["", "", ""] })
-    } else return
-    setCurrentIndex(currentIndex + 1)
+      setCurrentIndex(currentIndex + 1)
+    } else  {
+      alert("Max. 3 projects")
+      return; 
+    }
   }
 
   const removeProject = () => {
@@ -77,7 +81,6 @@ const ProjectsForm = () => {
                 placeholder="Blog App..."
                 {...register(`project.${currentIndex}.name`, { required: true })}
                 type="text"
-                required
               />
               {errors?.project?.[currentIndex]?.name && <p className="text-red-500 text-sm mt-1">This field is required</p>}
 
@@ -89,7 +92,6 @@ const ProjectsForm = () => {
                 placeholder="React, TypeScript, Tailwind, SQL, etc..."
                 type="text"
                 {...register(`project.${currentIndex}.techStack`, { required: true })}
-                required
               />
               {errors?.project?.[currentIndex]?.techStack && <p className="text-red-500 text-sm mt-1">This field is required</p>}
             </div>
@@ -99,8 +101,7 @@ const ProjectsForm = () => {
                 className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
                 placeholder="www.projectdeployed.com"
                 type="text"
-                {...register(`project.${currentIndex}.demo`, { required: false })}
-                required
+                {...register(`project.${currentIndex}.demo`, { required: false })}                
               />
             </div>
             <div className="w-full">
@@ -110,7 +111,7 @@ const ProjectsForm = () => {
                 placeholder="www.github.com/marcosarias20/project"
                 type="text"
                 {...register(`project.${currentIndex}.repository`, { required: false })}
-                required
+                
               />
             </div>
           </div>
@@ -119,7 +120,7 @@ const ProjectsForm = () => {
             {descriptionArray?.map((_, index) => 
               <div key={index} className="flex my-4 items-center gap-1">
                 {loading === true && index === indexDescription ?
-                  <div className="py-3 px-4 mx-2 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"><p className="animate-pulse text-gray-500">Generating text...</p></div>
+                  <div className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"><p className="animate-pulse text-gray-500">Generating text...</p></div>
                 :
                 <input
                   className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
@@ -130,9 +131,9 @@ const ProjectsForm = () => {
               }
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger className="border-black/20 text-black/40"><Button className="p-3" onClick={() => betterTextWithAI(prompt+values?.project[currentIndex]?.listDescription[index], index)}><BrainCogIcon /></Button></TooltipTrigger>
+                    <TooltipTrigger className="border-black/20 text-black/40"><Button className="p-3" onClick={() => betterTextWithAI(prompt+values?.project[currentIndex]?.listDescription[index], index)}>{loading == true && index === indexDescription ? <Spinner /> : <BrainCogIcon />}</Button></TooltipTrigger>
                     <TooltipContent>
-                      <p className="text-sm">Use AI to generate description</p>
+                      <p className="text-sm">Put a description and click here to generate a better text w/AI!</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>

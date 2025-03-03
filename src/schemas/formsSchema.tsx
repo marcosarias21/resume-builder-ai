@@ -34,10 +34,10 @@ export const ProjectsSchema = z.object({
 export const workSchema = z.object({
   works: z.array(
     z.object({
-    position: z.string(),
-    workCompany: z.string(),
-    start: z.string(),
-    end: z.string(),
-    summery: z.string()
+    position: z.string().min(1),
+    workCompany: z.string().min(1),
+    start: z.string().min(1),
+    end: z.string().min(1),
+    summery: z.string().min(1)
   }))
 })

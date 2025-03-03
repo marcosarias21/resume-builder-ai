@@ -3,14 +3,14 @@ import { Button } from "@/components/ui/button"
 import { workSchema } from "@/schemas/formsSchema"
 import { generateDescription } from "@/serivces/AIGenerativeText"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Brain, MoveRight, Save } from "lucide-react"
+import { Asterisk, Brain, Lightbulb, MoveRight, Save } from "lucide-react"
 import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
 const WorkForm = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const { register, handleSubmit, control, watch, setValue } = useForm<z.infer<typeof workSchema>>({
+  const { register, handleSubmit, control, watch, setValue, formState: { isValid } } = useForm<z.infer<typeof workSchema>>({
     resolver: zodResolver(workSchema),
     defaultValues: { works:[ { position: "", workCompany: "", start: "", end: "", summery: ""  }] }
   })
@@ -27,7 +27,7 @@ const WorkForm = () => {
 
   const generateText = async (index: number) => {
     setLoading(true)
-    const prompt = `Generate a summery from work experiences with this datas: ${values.works[index].workCompany} ${values.works[index].position}`
+    const prompt = `Generate a summery from work experiences, for a cv with this datas, give me only a description medium-large: ${values.works[index].workCompany} ${values.works[index].position}`
     const data = await generateDescription(prompt)
     if (data) {
       setLoading(false)
@@ -47,21 +47,21 @@ const WorkForm = () => {
                 <div className="flex flex-col justify-between border-1 rounded-2xl p-5">
                   <div className="flex gap-5 p-1 w-full">
                     <div className="w-full">
-                      <label className="font-medium" htmlFor="skills">Company Name:</label>
+                      <label className="font-medium flex items-center" htmlFor="skills">Company Name: <span><Asterisk className="text-red-500" size={14} /></span></label>
                       <input
                         className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
                         placeholder="Accenture"                    
                         type='text'
-                        {...register(`works.${index}.workCompany`)}
+                        {...register(`works.${index}.workCompany`, { required: true })}
                       />
                     </div>
                     <div className="w-full">
-                      <label className="font-medium" htmlFor="skills">Position:</label>
+                      <label className="font-medium flex items-center" htmlFor="skills">Position: <span><Asterisk className="text-red-500" size={14} /></span></label>
                       <input
                         className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
                         placeholder="Front End Developer"                    
                         type='text'
-                        {...register(`works.${index}.position`)}
+                        {...register(`works.${index}.position`, { required: true })}
                       />
                     </div>
                   </div>   
@@ -69,32 +69,33 @@ const WorkForm = () => {
                   </div> 
                   <div className="flex">
                     <div className="flex flex-col p-1 w-full">
-                      <label className="font-medium" htmlFor="skills">Start:</label>
+                      <label className="font-medium flex items-center" htmlFor="skills">Start: <span><Asterisk className="text-red-500" size={14} /></span></label>
                       <input
                         className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
                         type='date'
-                        {...register(`works.${index}.start`)}
+                        {...register(`works.${index}.start`, { required: true })}
                       />
                     </div>
                     <div className="flex flex-col p-1 w-full">
-                      <label className="font-medium" htmlFor="skills">End:</label>
+                      <label className="font-medium flex items-center" htmlFor="skills">End: <span><Asterisk className="text-red-500" size={14} /></span></label>
                       <input
                         className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-indigo-600'
                         type='date'
-                        {...register(`works.${index}.end`)}
+                        {...register(`works.${index}.end`, { required: true })}
                       />
                     </div>
                   </div>
-                  <div className="w-full p-1">
+                  <div className="w-full">
                     <div className="flex items-center justify-between my-4">
-                      <label className="font-medium">Summery</label>
+                      <label className="font-medium flex items-center">Summery<span><Asterisk className="text-red-500" size={14} /></span></label>
                       <Button type="button" onClick={() =>generateText(index)} ><Brain />Generate from AI {loading && <Spinner />}</Button>
                     </div>
                     {loading ? 
-                     <div className="w-full min-h-52 rounded-lg border-1 p-5"><p className="animate-pulse text-gray-500">Generando texto...</p></div>
+                     <div className="w-full min-h-20 rounded-xs border-1 p-5"><p className="animate-pulse text-gray-500 text-sm">Generando texto...</p></div>
                      :
-                      <textarea className="w-full min-h-52 rounded-lg border-1 p-5 " {...register(`works.${index}.summery`)} />
+                      <textarea className="w-full min-h-20 rounded-sm border-1 p-5 text-sm" placeholder="Describe your key responsiblities and any notable achievements" {...register(`works.${index}.summery`, { required: true })} />
                     }
+                    <span className="text-xs text-gray-500 flex items-center"><Lightbulb size={12} />If unsure what to write,  let AI handle it!</span>
                   </div>
                 </div>
               </div>
@@ -107,7 +108,7 @@ const WorkForm = () => {
             </div>
           </div>
           <div className="flex justify-center">
-            <Button className="bg-green-400 text-sm font-medium" size={"sm"} type="submit">
+            <Button className="bg-green-400 text-sm font-medium" size={"sm"} type="submit" disabled={!isValid}>
               <Save /> Save Work Experience
             </Button>
           </div>
