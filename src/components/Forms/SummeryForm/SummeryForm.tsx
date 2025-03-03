@@ -13,7 +13,7 @@ import { Brain, MoveRightIcon, Save } from "lucide-react"
 const SummeryForm = () => {
   const { saveData, data } = useDataStore()
   const [loading, setLoading] = useState<boolean>(false)
-  const prompt = `Generame solo un about me como si fuera un curriculum de acuerdo solo a este dato: ${data?.jobTitle}`
+  const prompt = `Generate just an about me as if it were a resume based only on this data: ${data?.jobTitle}`
   const [text, setText] = useState<string | undefined>("")
   const { register, handleSubmit, setValue  } = useForm<z.infer<typeof summarySchema>>({
     resolver: zodResolver(summarySchema),

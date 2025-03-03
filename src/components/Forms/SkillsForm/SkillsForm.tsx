@@ -33,7 +33,7 @@ const SkillsForm = () => {
               <div key={index} className="mb-1">
                 <div className="flex justify-between border-1 rounded-2xl p-5">
                   <div className="flex flex-col p-1 w-full">
-                    <label htmlFor="skills" className="font-medium flex items-center">Skill<span><Asterisk className="text-red-500" size={14} /></span>:</label>
+                    <label htmlFor="skills" className="font-medium flex items-center">Skill:<span><Asterisk className="text-red-500" size={14} /></span></label>
                     <input className='py-3 px-4 block w-full border-1 border-gray-200 rounded-lg text-sm ffocus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400'
                     placeholder={examplesSkills[index] ? examplesSkills[index] : "Eg: ..."} type='text' {...register(`skills.${index}`, { required: true })} />
                   </div>   
