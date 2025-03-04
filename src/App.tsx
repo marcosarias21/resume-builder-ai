@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import { Eye} from 'lucide-react'
 import { LiveTemplateCV } from './components/LiveTemplateCV'
 import { Sidebar } from './components/Sidebar'
-import { HoverCard, HoverCardContent, HoverCardTrigger } from './components/ui/hover-card'
 import { sectionsData } from './helpers/sectionsData'
 import { sidebarInfo } from './helpers/sidebarInfo'
 import { useSectionsStore } from './store/sectionStore'
 import './App.css'
+import { SideTemplateBar } from './components/SideTemplateBar'
 
 const App = () => {
   const { currentSection } = useSectionsStore()
@@ -17,14 +16,7 @@ const App = () => {
       <div className='col-span-1 flex flex-col'>
         {sidebarInfo.map(info => <Sidebar key={info.id} {...info} />)}
         <div className='mt-5'>
-          <HoverCard>
-            <HoverCardTrigger>
-              <button onClick={() => setIsWatched(!isWatched)} className={`bg-black/20 p-4 text-white cursor-pointer hover:bg-blue-300 hover:transition-colors ${isWatched && 'bg-blue-400'}`}>
-                  <Eye />
-              </button>
-            </HoverCardTrigger>
-            <HoverCardContent className='ml-1 mb-3' side="right">Live Preview</HoverCardContent>
-          </HoverCard>
+          <SideTemplateBar setIsWatched={setIsWatched} isWatched={isWatched}/>
         </div>
       </div>
       <div className={`w-full h-full ${isWatched ? 'col-span-7': 'col-span-9'}`}>
