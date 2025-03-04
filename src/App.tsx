@@ -29,7 +29,7 @@ const App = () => {
       </div>
       <div className={`w-full h-full ${isWatched ? 'col-span-7': 'col-span-9'}`}>
         <div className='flex flex-col h-full w-full justify-center'>
-          <h2 className='text-4xl font-bold'>{sectionsData[currentSection].title}</h2>
+          <h2 className='text-4xl font-bold text-gray-700'>{sectionsData[currentSection].title}</h2>
           {sectionsData[currentSection].comp}
         </div>
       </div>

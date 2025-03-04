@@ -75,10 +75,10 @@ const ProjectsForm = () => {
           </div>
           <div className="mt-1 grid grid-cols-2 gap-2">
             <div className="w-full">
-              <label className="flex items-center font-medium">Project Name<span><Asterisk className="text-red-500" size={14} /></span></label>
+              <label className="flex items-center font-bold text-gray-700">Project Name<span><Asterisk className="text-red-500" size={14} /></span></label>
               <input
-                className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                placeholder="Blog App..."
+                className="font-medium py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Enter project name. Eg: Blog App..."
                 {...register(`project.${currentIndex}.name`, { required: true })}
                 type="text"
               />
@@ -86,28 +86,28 @@ const ProjectsForm = () => {
 
             </div>
             <div className="w-full">
-              <label className="flex items-center font-medium">Technologies and Skills Used <span><Asterisk className="text-red-500" size={14} /></span></label>
+              <label className="flex items-center font-bold text-gray-700">Technologies and Skills Used <span><Asterisk className="text-red-500" size={14} /></span></label>
               <input
-                className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                placeholder="React, TypeScript, Tailwind, SQL, etc..."
+                className="font-medium py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Put skills that you used in the project. Eg: React, TypeScript, SQL, etc..."
                 type="text"
                 {...register(`project.${currentIndex}.techStack`, { required: true })}
               />
               {errors?.project?.[currentIndex]?.techStack && <p className="text-red-500 text-sm mt-1">This field is required</p>}
             </div>
             <div className="w-full">
-              <label className="font-medium">Project URL</label>
+              <label className="font-bold text-gray-700">Project URL</label>
               <input
-                className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                placeholder="www.projectdeployed.com"
+                className="font-medium py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Enter URL. Eg:www.projectdeployed.com"
                 type="text"
                 {...register(`project.${currentIndex}.demo`, { required: false })}                
               />
             </div>
             <div className="w-full">
-              <label className="font-medium">Repository:</label>
+              <label className="font-bold text-gray-700">Repository:</label>
               <input
-                className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                className="font-medium py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
                 placeholder="www.github.com/marcosarias20/project"
                 type="text"
                 {...register(`project.${currentIndex}.repository`, { required: false })}
@@ -116,14 +116,14 @@ const ProjectsForm = () => {
             </div>
           </div>
           <div className="mt-5">
-            <label className="font-medium">Describe your project in points</label>
+            <label className="font-bold text-gray-700">Describe your project in points</label>
             {descriptionArray?.map((_, index) => 
               <div key={index} className="flex my-4 items-center gap-1">
                 {loading === true && index === indexDescription ?
                   <div className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"><p className="animate-pulse text-gray-500">Generating text...</p></div>
                 :
                 <input
-                  className="py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  className="font-medium py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   type="text"
                   placeholder={examplesProjects[index] ? examplesProjects[index] : 'Put a litle description...'}
                   {...register(`project.${currentIndex}.listDescription.${index}`)}

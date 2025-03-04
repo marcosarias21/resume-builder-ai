@@ -56,16 +56,9 @@ const SummeryForm = () => {
               </div>
             </div>
             {loading ? (
-            <div className="w-full min-h-52 p-3 rounded-md border border-gray"><p className="animate-pulse text-gray-500">Generating text...</p></div>
+            <div className="w-full min-h-40 p-3 rounded-md border border-gray"><p className="animate-pulse text-gray-400 text-sm font-medium">Generating text...</p></div>
             ) : (
-            <textarea
-              id="message"
-              className="block w-full min-h-52 p-3 text-sm text-gray-900 rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-green-400 focus:border-transparent focus:outline-none dark:text-white dark:placeholder-gray-400"
-              placeholder="Text summary..."
-              {...register("summery")}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
+            <textarea id="message" className="block w-full min-h-40 p-3 text-sm text-gray-900 rounded-md border font-medium border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-green-400 focus:border-transparent focus:outline-none dark:text-white dark:placeholder-gray-400"  placeholder="Summarize your experience and key skills in a few words..." {...register("summery")} value={text} onChange={(e) => setText(e.target.value)} />
           )}
           </div>
           <div className="text-center">
