@@ -41,3 +41,15 @@ export const workSchema = z.object({
     summery: z.string().min(1)
   }))
 })
+
+export const educationSchema = z.object({
+  education: z.array(
+    z.object({
+      universityName: z.string().min(1),
+      degree: z.string(),
+      major: z.string(),
+      start: z.string().min(1),
+      end: z.string().min(1)
+    })
+  )
+})
