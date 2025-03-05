@@ -1,3 +1,4 @@
+import { EducationForm } from "@/components/Forms/EducationForm";
 import { PersonalInfoForm } from "@/components/Forms/PersonalInfoForm";
 import { ProjectsForm } from "@/components/Forms/ProjectsForm";
 import { SkillsForm } from "@/components/Forms/SkillsForm";
@@ -27,8 +28,13 @@ export const sectionsData: Record<string, {id: number, title: string, comp: Reac
       comp: <ProjectsForm />
     },
     works: {
-      id: 3,
+      id: 4,
       title: 'Works Experiences',
       comp: <WorkForm />
+    },
+    education: {
+      id: 4,
+      title: 'Educational Background',
+      comp: <EducationForm />
     }
 }
