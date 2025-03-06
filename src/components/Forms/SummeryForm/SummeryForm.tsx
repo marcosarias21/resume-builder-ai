@@ -9,20 +9,25 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Spinner } from '../../Spinner'
 import { generateDescription } from "@/serivces/AIGenerativeText"
 import { Brain, MoveRightIcon, Save } from "lucide-react"
+import { EXAMPLES_LINKS, EXAMPLES_NETWORK } from "@/helpers/examples"
 
 const SummeryForm = () => {
   const { saveData, data } = useDataStore()
   const [loading, setLoading] = useState<boolean>(false)
   const prompt = `Generate just an about me as if it were a resume based only on this data: ${data?.jobTitle}`
   const [text, setText] = useState<string | undefined>("")
+  const [linksArray, setLinksArray] = useState<string[]>(Array(3).fill(null))
   const { register, handleSubmit, setValue  } = useForm<z.infer<typeof summarySchema>>({
     resolver: zodResolver(summarySchema),
-    mode: 'onChange'
   })
   
-
-  const onSubmit = () => {
-    saveData({ summery: text })
+  const onSubmit = (values: z.infer<typeof summarySchema>) => {
+    saveData({
+      summery: {
+        summery: values.summery || "",
+        socialMedia: values.socialMedia
+      }
+    })
   }
 
   const generateText = async (prompt: string) => {
@@ -39,7 +44,33 @@ const SummeryForm = () => {
       <div className='min-h-[60%] w-full bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
         <form onSubmit={handleSubmit(onSubmit)} className='flex flex-col justify-center gap-6 min-h-[100%] h-full'>             
           <div className="flex flex-col justify-center h-full">
-            <div className="flex justify-between items-center my-2">
+            <div className="flex flex-col">
+              <div className="grid grid-cols-7 font-bold text-gray-700 mb-2">
+                <div className="col-span-1">Site</div>
+                <div className="col-span-3 text-center">
+                  <h4>URL</h4>
+                </div>
+                <div className="col-span-3 text-center">
+                  <h4>Text</h4>
+                </div>
+              </div>
+              {linksArray?.map((_, index) => 
+              <div key={index}>               
+                <div className="grid grid-cols-7 mb-4 gap-4 items-center">
+                  <div className="col-span-1">
+                    <label className="text-md font-bold text-gray-700">{EXAMPLES_NETWORK[index]}</label>
+                  </div>
+                  <div className="col-span-3">
+                    <input type="text" className="font-medium py-3 px-4 block w-full border rounded-sm text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400" placeholder={`Enter your profile link. Eg: ${EXAMPLES_LINKS[index]}`} {...register(`socialMedia.${index}.link`)} />
+                  </div>
+                  <div className="col-span-3">
+                    <input type="text" className="font-medium py-3 px-4 block w-full border rounded-sm text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400" placeholder={`Enter text that will be shown in CV`} {...register(`socialMedia.${index}.text`)} />
+                  </div>
+                </div>
+              </div>
+              )}
+            </div>
+            <div className="flex justify-between items-center my-5">
               <div>
                 <label htmlFor="message" className="block mb-2 text-md font-bold text-gray-700 dark:text-gray-300">Add your Summery (Optional):</label>
               </div>
@@ -65,7 +96,7 @@ const SummeryForm = () => {
             <Button disabled={text ? false : true} type="submit" className="bg-green-400 text-sm font-medium" size={"sm"}><Save />Save Summery</Button>
           </div>             
           <div className="text-end mt-10">
-            <Button className="bg-blue-400 text-sm font-medium" size={"sm"}><MoveRightIcon />Continue</Button>
+            <Button className="bg-blue-400 text-sm font-medium" type="submit" size={"sm"}><MoveRightIcon />Continue</Button>
           </div>
         </form>
       </div>

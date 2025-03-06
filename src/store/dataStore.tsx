@@ -1,6 +1,16 @@
 import { create } from "zustand";
 
 type Skill = string
+
+interface socialMediaObject {
+  text: string,
+  link: string,
+}
+
+interface summery {
+  socialMedia?: socialMediaObject[]
+  summery: string
+}
 interface Project {
   name: string
   techStack: string
@@ -15,7 +25,7 @@ type ObjectData = {
   address?: string
   location?: string
   phone?: string
-  summery?: string 
+  summery?: summery 
   skills?: Skill[]
   projects?: Project[] | Project
 }
