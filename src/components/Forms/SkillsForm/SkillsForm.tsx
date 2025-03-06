@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import { examplesSkills } from "@/helpers/examples"
+import { EXAMPLES_SKILLS } from "@/helpers/examples"
 import useActionForm from "@/hooks/useActionForm"
 import { skillsSchema } from "@/schemas/formsSchema"
 import { useDataStore } from "@/store/dataStore"
@@ -35,7 +35,7 @@ const SkillsForm = () => {
                 <div className="flex flex-col p-1 w-full">
                   <label htmlFor="skills" className="font-bold text-gray-700 flex items-center">Skill:<span><Asterisk className="text-red-500" size={14} /></span></label>
                   <input className="font-medium py-3 px-4 block w-full border rounded-sm text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
-                  placeholder={examplesSkills[index] ? examplesSkills[index] : "Add a key skill that you used"} type='text' {...register(`skills.${index}`, { required: true })} />
+                  placeholder={EXAMPLES_SKILLS[index] ? EXAMPLES_SKILLS[index] : "Add a key skill that you used"} type='text' {...register(`skills.${index}`, { required: true })} />
                 </div>   
               </div>
              ))}

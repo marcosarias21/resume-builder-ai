@@ -12,6 +12,10 @@ export const personalInfoSchema = z.object({
 
 
 export const summarySchema = z.object({
+  socialMedia: z.array(z.object({
+    link: z.string(),
+    text: z.string()
+  })),
   summery: z.string().optional()
 })
 
