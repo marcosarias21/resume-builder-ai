@@ -1,2 +1,4 @@
-export const examplesSkills = ["Eg: React", "Eg: SQL", "Eg:Typescript"]
-export const examplesProjects = ["Developed a user-friendly web application, allowing users to create and manage.", "Utilized Redux for state management, enabling efficient data flow and improved application performance.", "Designed RESTful APIs using Node.js and Express.js, facilitating data retrieval and storage from the PostgreSQL database."]
+export const EXAMPLES_SKILLS = ["Eg: React", "Eg: SQL", "Eg:Typescript"]
+export const EXAMPLES_PROJECTS = ["Developed a user-friendly web application, allowing users to create and manage.", "Utilized Redux for state management, enabling efficient data flow and improved application performance.", "Designed RESTful APIs using Node.js and Express.js, facilitating data retrieval and storage from the PostgreSQL database."]
+export const EXAMPLES_NETWORK = ["Website", "LinkedIn", "GitHub"]
+export const EXAMPLES_LINKS = ["https://marcosariasdev.com/","https://www.linkedin.com/in/profile/", "https://github.com/profile"]

@@ -3,7 +3,7 @@ import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProjectsSchema } from "@/schemas/formsSchema";
-import { examplesProjects } from "@/helpers/examples";
+import { EXAMPLES_PROJECTS } from "@/helpers/examples";
 import { generateDescription } from "@/serivces/AIGenerativeText";
 import useActionForm from "@/hooks/useActionForm";
 import { Button } from "@/components/ui/button";
@@ -125,7 +125,7 @@ const ProjectsForm = () => {
                 <input
                   className="font-medium py-3 px-4 block w-full border border-gray-200 rounded-lg text-sm focus:border-indigo-500 focus:ring-indigo-500"
                   type="text"
-                  placeholder={examplesProjects[index] ? examplesProjects[index] : 'Put a litle description...'}
+                  placeholder={EXAMPLES_PROJECTS[index] ? EXAMPLES_PROJECTS[index] : 'Put a litle description...'}
                   {...register(`project.${currentIndex}.listDescription.${index}`)}
                  />
               }
