@@ -11,8 +11,10 @@ import { Asterisk, BrainCogIcon, MoveRight, Save } from "lucide-react";
 import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
 import { Spinner } from "@/components/Spinner";
+import { useDataStore } from "@/store/dataStore";
 
 const ProjectsForm = () => {
+  const { saveData } = useDataStore()
   const { handleSubmit, register, control, watch, formState: { isValid, errors }, setValue } = useForm<z.infer<typeof ProjectsSchema>>({
     resolver: zodResolver(ProjectsSchema),
     defaultValues: { project: [{ name: "", techStack: "", listDescription: [""] }] },
@@ -22,16 +24,17 @@ const ProjectsForm = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [indexDescription, setIndexDescription] = useState<number>()
   const [descriptionArray, setDescriptionArray] = useState(Array(3).fill(null))
-  const [inputValue, setInputValue] = useState<any[] & string[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const prompt = "Please improve this brief description in relation to an application made, as if it were a resume, just give me a brief description:"
   const values = watch()
   const { addArray, removeArray } = useActionForm({array: descriptionArray, setArray: setDescriptionArray})
 
-  console.log(errors)
-
   const onSubmit = (values: z.infer<typeof ProjectsSchema>) => {
-    console.log(values);
+    console.log(values)
+    const filteredValues = values.project.map(project => ({...project, listDescription: project.listDescription.filter(p => p != "")}))
+    saveData({
+      projects: filteredValues
+    })
   };
 
   const addProject = () => {
@@ -55,7 +58,6 @@ const ProjectsForm = () => {
     const data = await generateDescription(text)
     if (data) {
       setValue(`project.${currentIndex}.listDescription.${index}`, data)
-      setInputValue([...inputValue, {index, text: data}])
       setLoading(false)
     }
   }
