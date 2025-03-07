@@ -14,7 +14,9 @@ interface summery {
 interface Project {
   name: string
   techStack: string
-  listDescription: string[]
+  listDescription: string[] | undefined
+  demo?: string
+  repository?: string
 }
 
 type ObjectData = {
@@ -27,7 +29,7 @@ type ObjectData = {
   phone?: string
   summery?: summery 
   skills?: Skill[]
-  projects?: Project[] | Project
+  projects?: Project[]
 }
 
 interface State {
