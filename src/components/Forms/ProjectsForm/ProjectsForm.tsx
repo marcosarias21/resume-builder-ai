@@ -7,7 +7,7 @@ import { EXAMPLES_PROJECTS } from "@/helpers/examples";
 import { generateDescription } from "@/serivces/AIGenerativeText";
 import useActionForm from "@/hooks/useActionForm";
 import { Button } from "@/components/ui/button";
-import { Asterisk, BrainCogIcon, MoveRight, Save } from "lucide-react";
+import { Asterisk, BrainCogIcon, CircleHelp, MoveRight, Save } from "lucide-react";
 import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
 import { Spinner } from "@/components/Spinner";
@@ -25,10 +25,9 @@ const ProjectsForm = () => {
   const [indexDescription, setIndexDescription] = useState<number>()
   const [descriptionArray, setDescriptionArray] = useState(Array(3).fill(null))
   const [loading, setLoading] = useState<boolean>(false)
-  const prompt = "Please improve this brief description in relation to an application made, as if it were a resume, just give me a brief description:"
   const values = watch()
+  const prompt = `Improve it a concise and professional project description for a resume.:`
   const { addArray, removeArray } = useActionForm({array: descriptionArray, setArray: setDescriptionArray})
-
   const onSubmit = (values: z.infer<typeof ProjectsSchema>) => {
     console.log(values)
     const filteredValues = values.project.map(project => ({...project, listDescription: project.listDescription.filter(p => p != "")}))
@@ -118,7 +117,15 @@ const ProjectsForm = () => {
             </div>
           </div>
           <div className="mt-5">
-            <label className="font-bold text-gray-700">Describe your project in points</label>
+            <div className="flex items-center gap-1">
+              <label className="font-bold text-gray-700">Describe your project in points</label>
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger className="text-gray-400"><CircleHelp size={20}/></TooltipTrigger>
+                  <TooltipContent>Describe your project, and if you feel unsure, let AI improve it!</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
             {descriptionArray?.map((_, index) => 
               <div key={index} className="flex my-4 items-center gap-1">
                 {loading === true && index === indexDescription ?
@@ -133,7 +140,7 @@ const ProjectsForm = () => {
               }
                 <TooltipProvider>
                   <Tooltip>
-                    <TooltipTrigger className="border-black/20 text-black/40"><Button className="p-3" onClick={() => betterTextWithAI(prompt+values?.project[currentIndex]?.listDescription[index], index)}>{loading == true && index === indexDescription ? <Spinner /> : <BrainCogIcon />}</Button></TooltipTrigger>
+                    <TooltipTrigger className="border-black/20 text-black/40"><Button className="p-3" type="button" onClick={() => betterTextWithAI(prompt+values?.project[currentIndex]?.listDescription[index], index)}>{loading == true && index === indexDescription ? <Spinner /> : <BrainCogIcon />}</Button></TooltipTrigger>
                     <TooltipContent>
                       <p className="text-sm">Put a description and click here to generate a better text w/AI!</p>
                     </TooltipContent>
