@@ -7,7 +7,7 @@ interface socialMediaObject {
   link: string,
 }
 
-interface summery {
+export interface Summery {
   socialMedia?: socialMediaObject[]
   summery: string
 }
@@ -27,7 +27,7 @@ type ObjectData = {
   address?: string
   location?: string
   phone?: string
-  summery?: summery 
+  summery?: Summery 
   skills?: Skill[]
   projects?: Project[]
 }

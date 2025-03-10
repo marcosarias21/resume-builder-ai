@@ -36,8 +36,8 @@ const WorkForm = () => {
   }
 
   return (
-    <div className='min-h-[60%] overflow-y-scroll w-full bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
-        <form onSubmit={handleSubmit(onSubmit)} className='gap-6 max-h-[480px] overflow-y-auto custom-scrollbar pr-5'>             
+    <div className='min-h-[60%] w-full bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
+        <form onSubmit={handleSubmit(onSubmit)} className='gap-6 max-h-[485px] overflow-y-auto custom-scrollbar pr-5'>             
           <div>
              {fields?.map((_, index) => (
               <div key={index} className="mb-1 border-1 rounded">
