@@ -14,10 +14,9 @@ const App = () => {
 
   useEffect(() => {
     const unsubscribe = useDataStore.subscribe((state) => {
-      const data = state.data;
-      if (data) {
-        localStorage.setItem("resumeData", JSON.stringify(data));
-      }
+      const existingData = JSON.parse(localStorage.getItem("resumeData") || "{}");
+      const newData = { ...existingData, ...state.data }
+      localStorage.setItem("resumeData", JSON.stringify(newData));
     });
     return () => unsubscribe();
   }, []);
