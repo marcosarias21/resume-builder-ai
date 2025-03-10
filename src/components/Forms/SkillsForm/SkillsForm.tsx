@@ -14,7 +14,7 @@ const SkillsForm = () => {
     resolver: zodResolver(skillsSchema),
     mode: "onChange"
   })
-  const { saveData  } = useDataStore()
+  const { saveData } = useDataStore()
   const [skillsArray, setSkillsArray] = useState(Array(3).fill(null))
   const { addArray, removeArray } = useActionForm({ array: skillsArray, setArray: setSkillsArray })
 
