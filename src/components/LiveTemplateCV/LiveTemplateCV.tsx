@@ -8,7 +8,7 @@ const LiveTemplateCV = () => {
     <div className='border-1 flex flex-col flex-wrap rounded shadow-md w-full h-full p-7 text-gray-700'>
       <div className='flex justify-between'>
         <div>
-          {data?.lastName ? <h1 className='text-3xl font-bold'>{data?.firstName} {data?.lastName}</h1> : <h1 className="text-3xl font-bold">Nombre Apellido</h1> }
+          {data?.lastName ? <h1 className='text-3xl font-bold'>{data?.firstName} {data?.lastName}</h1> : <h1 className="text-3xl font-bold">Name LastName</h1> }
           <h3 className='text-md font-bold'>{data?.jobTitle ? data?.jobTitle?.toLocaleUpperCase() : "Job Title"}</h3>
         </div>
         <div className='flex flex-col'>
