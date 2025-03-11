@@ -1,25 +1,36 @@
 import { Button } from '@/components/ui/button'
 import { educationSchema } from '@/schemas/formsSchema'
+import { Education, useDataStore } from '@/store/dataStore'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Asterisk, MoveRight, Save } from 'lucide-react'
+import { useEffect } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 type educationType = z.infer<typeof educationSchema>
 
 const EducationForm = () => {
-  const { register, handleSubmit, control, formState: { isValid } } = useForm<educationType>({
+  const { saveData, data } = useDataStore()
+  const { register, handleSubmit, control, formState: { isValid }, setValue } = useForm<educationType>({
     resolver: zodResolver(educationSchema),
-    defaultValues: { education: [{ universityName: "", degree: "", major: "", start: "", end: ""  }]} 
+    defaultValues: { educations: [{ universityName: "", degree: "", major: "", start: "", end: ""  }]} 
     })
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "education"
+    name: "educations"
   })
 
   const onSubmit = (values: educationType) => {
-    console.log(values)
+    saveData(values)
   }
+
+  useEffect(() => {
+    if (data?.educations) {
+      Object.keys(data?.educations).forEach(key => 
+        setValue(`educations.${key}` as any, data.educations?.[key as keyof Education[]])
+      )
+    }
+  }, [])
 
   return (
     <div className='min-h-[60%] w-full bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
@@ -34,7 +45,7 @@ const EducationForm = () => {
                     className="font-medium py-3 px-4 block w-full border rounded-sm text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
                     placeholder="Enter university name"                    
                     type='text'
-                    {...register(`education.${index}.universityName`, { required: true })}
+                    {...register(`educations.${index}.universityName`, { required: true })}
                   />
                 </div>
                 <div className="w-full">
@@ -43,7 +54,7 @@ const EducationForm = () => {
                     className="font-medium py-3 px-4 block w-full border rounded-sm text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
                     placeholder="Enter degree obtained"                    
                     type='text'
-                    {...register(`education.${index}.degree`, { required: false })}
+                    {...register(`educations.${index}.degree`, { required: false })}
                   />
                 </div>               
                 <div className="w-full">
@@ -52,7 +63,7 @@ const EducationForm = () => {
                     className="font-medium py-3 px-4 block w-full border rounded-sm text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
                     placeholder="Enter the field of study"                    
                     type='text'
-                    {...register(`education.${index}.major`, { required: false })}
+                    {...register(`educations.${index}.major`, { required: false })}
                     />
                 </div>
               </div>
@@ -62,7 +73,7 @@ const EducationForm = () => {
                   <input
                     className="font-medium py-3 px-4 block w-full border rounded-sm text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
                     type='date'
-                    {...register(`education.${index}.start`, { required: true })}
+                    {...register(`educations.${index}.start`, { required: true })}
                   />
                 </div>
                 <div className="w-full">
@@ -70,7 +81,7 @@ const EducationForm = () => {
                   <input
                     className="font-medium py-3 px-4 block w-full border rounded-sm text-sm focus:border-green-400 focus:ring-1 focus:ring-green-400 focus:outline-none dark:text-white dark:placeholder-gray-400"
                     type='date'
-                    {...register(`education.${index}.end`, { required: true })}
+                    {...register(`educations.${index}.end`, { required: true })}
                   />
                 </div>
               </div>

@@ -16,7 +16,7 @@ export const summarySchema = z.object({
     link: z.string(),
     text: z.string()
   })),
-  summery: z.string().optional()
+  description: z.string().optional()
 })
 
 export const skillsSchema = z.object({
@@ -47,7 +47,7 @@ export const workSchema = z.object({
 })
 
 export const educationSchema = z.object({
-  education: z.array(
+  educations: z.array(
     z.object({
       universityName: z.string().min(1),
       degree: z.string(),

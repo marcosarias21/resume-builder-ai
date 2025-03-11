@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,10 +11,10 @@ import { Asterisk, BrainCogIcon, CircleHelp, MoveRight, Save } from "lucide-reac
 import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
 import { Spinner } from "@/components/Spinner";
-import { useDataStore } from "@/store/dataStore";
+import { Project, useDataStore } from "@/store/dataStore";
 
 const ProjectsForm = () => {
-  const { saveData } = useDataStore()
+  const { saveData, data } = useDataStore()
   const { handleSubmit, register, control, watch, formState: { isValid, errors }, setValue } = useForm<z.infer<typeof ProjectsSchema>>({
     resolver: zodResolver(ProjectsSchema),
     defaultValues: { project: [{ name: "", techStack: "", listDescription: [""] }] },
@@ -54,12 +54,20 @@ const ProjectsForm = () => {
   const betterTextWithAI = async (text: string, index: number) => {
     setLoading(true)
     setIndexDescription(index)
-    const data = await generateDescription(text)
-    if (data) {
-      setValue(`project.${currentIndex}.listDescription.${index}`, data)
+    const dataAI = await generateDescription(text)
+    if (dataAI) {
+      setValue(`project.${currentIndex}.listDescription.${index}`, dataAI)
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (data?.projects) {
+      Object.keys(data?.projects).forEach((key) => 
+        setValue(`project.${key}` as any, data.projects?.[key as keyof Project[]])
+      )
+    }
+  }, [])
 
   return (
     <div className="min-h-[60%] w-full bg-white border border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10">
