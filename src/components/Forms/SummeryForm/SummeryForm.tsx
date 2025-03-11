@@ -16,7 +16,7 @@ const SummeryForm = () => {
   const [loading, setLoading] = useState<boolean>(false)
   const prompt = `Generate just an about me as if it were a resume based only on this data: ${data?.jobTitle}`
   const [text, setText] = useState<string | undefined>("")
-  const [linksArray, setLinksArray] = useState<string[]>(Array(3).fill(null))
+  let linksArray: string[] = (Array(3).fill(null))
   const { register, handleSubmit, setValue  } = useForm<z.infer<typeof summarySchema>>({
     resolver: zodResolver(summarySchema),
   })
@@ -24,7 +24,7 @@ const SummeryForm = () => {
   const onSubmit = (values: z.infer<typeof summarySchema>) => {
     saveData({
       summery: {
-        summery: values.summery || "",
+        description: values.description || "",
         socialMedia: values.socialMedia
       }
     })
@@ -36,21 +36,16 @@ const SummeryForm = () => {
     if (dataAI) {
       setLoading(false)
       setText(dataAI)
-      setValue("summery", dataAI)
+      setValue("description", dataAI)
      }
   }
 
   useEffect(() => {
-    const dataStorage = localStorage.getItem("resumeData")
-    if (dataStorage) {
-      const parsedData = JSON.parse(dataStorage)
-      if (parsedData?.summery)
-        {
-          Object.keys(parsedData.summery).forEach(key => 
-            setValue(key as keyof Summery, parsedData?.summery[key as keyof Summery])
-          )
-      }
-    }
+    if (data?.summery) {
+      Object.keys(data.summery).forEach(key => 
+        setValue(key as keyof Summery, data?.summery?.[key as keyof Summery])
+      )
+    }   
   }, [])
 
   return (
@@ -102,7 +97,7 @@ const SummeryForm = () => {
             {loading ? (
             <div className="w-full min-h-40 p-3 rounded-md border border-gray"><p className="animate-pulse text-gray-400 text-sm font-medium">Generating text...</p></div>
             ) : (
-            <textarea id="message" className="block w-full min-h-40 p-3 text-sm text-gray-900 rounded-md border font-medium border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-green-400 focus:border-transparent focus:outline-none dark:text-white dark:placeholder-gray-400"  placeholder="Summarize your experience and key skills in a few words..." {...register("summery")} value={text} onChange={(e) => setText(e.target.value)} />
+            <textarea id="message" className="block w-full min-h-40 p-3 text-sm text-gray-900 rounded-md border font-medium border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-green-400 focus:border-transparent focus:outline-none dark:text-white dark:placeholder-gray-400"  placeholder="Summarize your experience and key skills in a few words..." {...register("description")} value={text} onChange={(e) => setText(e.target.value)} />
           )}
           </div>
           <div className="text-center">

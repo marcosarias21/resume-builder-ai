@@ -2,13 +2,15 @@ import { Spinner } from "@/components/Spinner"
 import { Button } from "@/components/ui/button"
 import { workSchema } from "@/schemas/formsSchema"
 import { generateDescription } from "@/serivces/AIGenerativeText"
+import { useDataStore, WorkObject } from "@/store/dataStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Asterisk, Brain, Lightbulb, MoveRight, Save } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form"
 import { z } from "zod"
 
 const WorkForm = () => {
+  const { saveData, data } = useDataStore()
   const [loading, setLoading] = useState<boolean>(false)
   const { register, handleSubmit, control, watch, setValue, formState: { isValid } } = useForm<z.infer<typeof workSchema>>({
     resolver: zodResolver(workSchema),
@@ -21,8 +23,8 @@ const WorkForm = () => {
   const values = watch()
   
   
-  const onSubmit = (val: z.infer<typeof workSchema>) => {
-    console.log(val)
+  const onSubmit = (values: z.infer<typeof workSchema>) => {
+    saveData(values)
   }
 
   const generateText = async (index: number) => {
@@ -34,6 +36,14 @@ const WorkForm = () => {
       setValue(`works.${index}.summery`, data)
     }
   }
+
+  useEffect(() => {
+    if (data?.works) {
+      Object.keys(data.works).forEach(key => 
+        setValue(`works.${key}` as any, data?.works?.[key as keyof WorkObject[]])
+      )
+    }
+  }, [])
 
   return (
     <div className='min-h-[60%] w-full bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>
