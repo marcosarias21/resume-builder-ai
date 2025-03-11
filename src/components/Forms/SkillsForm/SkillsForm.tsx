@@ -5,22 +5,28 @@ import { skillsSchema } from "@/schemas/formsSchema"
 import { useDataStore } from "@/store/dataStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Asterisk, MoveRight, Save } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
 const SkillsForm = () => {
-  const { register, handleSubmit, formState: {errors, isValid} } = useForm<z.infer<typeof skillsSchema>>({
+  const { register, handleSubmit, formState: {errors, isValid}, setValue } = useForm<z.infer<typeof skillsSchema>>({
     resolver: zodResolver(skillsSchema),
     mode: "onChange"
   })
-  const { saveData } = useDataStore()
+  const { saveData, data } = useDataStore()
   const [skillsArray, setSkillsArray] = useState(Array(3).fill(null))
   const { addArray, removeArray } = useActionForm({ array: skillsArray, setArray: setSkillsArray })
 
   const onSubmit = (values:  z.infer<typeof skillsSchema>) => {
     saveData(values)
   }
+
+  useEffect(() => {
+    if (data?.skills) {
+      data.skills?.forEach((skill, index) => setValue(`skills.${index}`, skill))
+    }
+  }, [])
 
   return (
     <div className='min-h-[60%] w-full bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10'>

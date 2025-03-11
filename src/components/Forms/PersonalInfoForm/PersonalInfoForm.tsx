@@ -3,37 +3,27 @@ import { personalInfoSchema } from "../../../schemas/formsSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "../../ui/button";
-import { useDataStore } from "@/store/dataStore";
+import { PersonalInfo, useDataStore } from "@/store/dataStore";
 import { Asterisk, MoveRight } from "lucide-react";
 import { useEffect } from "react";
 
-type PersonalInfo = {
-  firstName: string;
-  lastName: string;
-  jobTitle: string;
-  email: string;
-  phone?: string;
-  location: string;
-  address?: string;
-};
-
 const PersonalInfoForm = () => {
-  const { saveData } = useDataStore();
+  const { saveData, data } = useDataStore();
   const { register, handleSubmit, setValue, formState: { isValid, errors }} = useForm<z.infer<typeof personalInfoSchema>>({
     resolver: zodResolver(personalInfoSchema),
     mode: "onChange",
   })
   
   const onSubmit = (values: z.infer<typeof personalInfoSchema>) => {
-    saveData(values);
+    saveData({
+      personalInfo: values
+    });
     alert("Datos guardados correctamente!")
   }
   
   useEffect(() => {
-    const data = localStorage.getItem("resumeData");    
     if (data) {
-      const parsedData = JSON.parse(data)
-      if (parsedData) Object.keys(parsedData).forEach((key) => setValue(key as keyof PersonalInfo, parsedData[key as keyof PersonalInfo]))
+      if (data) Object.keys(data).forEach((key) => setValue(key as keyof PersonalInfo, data.personalInfo?.[key as keyof PersonalInfo]))
     }
   }, [])
 
