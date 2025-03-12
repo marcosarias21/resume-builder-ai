@@ -26,8 +26,9 @@ const ProjectsForm = () => {
   const [descriptionArray, setDescriptionArray] = useState(Array(3).fill(null))
   const [loading, setLoading] = useState<boolean>(false)
   const values = watch()
-  const prompt = `Improve it a concise and professional project description for a resume.:`
-  const { addArray, removeArray } = useActionForm({array: descriptionArray, setArray: setDescriptionArray})
+  const prompt = `Generate a concise, professional project description for a resume, improving the following text:
+  Context: ${data?.projects?.[currentIndex]}`;
+    const { addArray, removeArray } = useActionForm({array: descriptionArray, setArray: setDescriptionArray})
   const onSubmit = (values: z.infer<typeof ProjectsSchema>) => {
     console.log(values)
     const filteredValues = values.project.map(project => ({...project, listDescription: project.listDescription.filter(p => p != "")}))
