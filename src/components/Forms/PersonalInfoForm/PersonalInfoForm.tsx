@@ -23,7 +23,7 @@ const PersonalInfoForm = () => {
   
   useEffect(() => {
     if (data) {
-      if (data) Object.keys(data).forEach((key) => setValue(key as keyof PersonalInfo, data.personalInfo?.[key as keyof PersonalInfo]))
+      if (data?.personalInfo) Object.keys(data?.personalInfo).forEach((key) => setValue(key as keyof PersonalInfo, data.personalInfo?.[key as keyof PersonalInfo]))
     }
   }, [])
 

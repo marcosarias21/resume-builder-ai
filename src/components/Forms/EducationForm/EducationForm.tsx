@@ -90,7 +90,7 @@ const EducationForm = () => {
           </div>                
           <div className="flex justify-between my-10">
             <div className="flex gap-2">
-              <Button  onClick={() => append({ universityName: "", degree: "", major: "", start: "", end: "" })} type="button" className="text-blue-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>+ Add More Work Experiences</Button>
+              <Button  onClick={() => append({ universityName: "", degree: "", major: "", start: "", end: "" })} type="button" className="text-blue-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>+ Add More Education</Button>
               <Button type="button" onClick={() => remove(-1)} className="text-red-500 border-1 bg-white border-gray-200 hover:bg-inherit" size={"lg"}>- Remove</Button>
             </div>
           </div>

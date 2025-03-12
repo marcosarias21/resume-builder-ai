@@ -14,7 +14,7 @@ import { EXAMPLES_LINKS, EXAMPLES_NETWORK } from "@/helpers/examples"
 const SummeryForm = () => {
   const { saveData, data } = useDataStore()
   const [loading, setLoading] = useState<boolean>(false)
-  const prompt = `Generate just an about me as if it were a resume based only on this data: ${data?.jobTitle}`
+  const prompt = `Generate just an about me as if it were a resume based only on this data: ${data?.personalInfo?.jobTitle}`
   const [text, setText] = useState<string | undefined>("")
   let linksArray: string[] = (Array(3).fill(null))
   const { register, handleSubmit, setValue  } = useForm<z.infer<typeof summarySchema>>({
