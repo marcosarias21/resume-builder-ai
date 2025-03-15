@@ -10,9 +10,11 @@ import { Spinner } from '../../Spinner'
 import { generateDescription } from "@/serivces/AIGenerativeText"
 import { Brain, MoveRightIcon, Save } from "lucide-react"
 import { EXAMPLES_LINKS, EXAMPLES_NETWORK } from "@/helpers/examples"
+import { useSectionsStore } from "@/store/sectionStore"
 
 const SummeryForm = () => {
   const { saveData, data } = useDataStore()
+  const { updateCurrentSection } = useSectionsStore()
   const [loading, setLoading] = useState<boolean>(false)
   const prompt = `Generate just an about me as if it were a resume based only on this data: ${data?.personalInfo?.jobTitle}`
   const [text, setText] = useState<string | undefined>("")
@@ -104,7 +106,7 @@ const SummeryForm = () => {
             <Button disabled={text ? false : true} type="submit" className="bg-green-400 text-sm font-medium" size={"sm"}><Save />Save Summery</Button>
           </div>             
           <div className="text-end mt-10">
-            <Button className="bg-blue-400 text-sm font-medium" type="submit" size={"sm"}><MoveRightIcon />Continue</Button>
+            <Button onClick={() => updateCurrentSection("skills")} className="bg-blue-400 text-sm font-medium" size={"sm"}><MoveRightIcon />Continue</Button>
           </div>
         </form>
       </div>
