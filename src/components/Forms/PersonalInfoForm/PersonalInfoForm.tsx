@@ -6,9 +6,11 @@ import { Button } from "../../ui/button";
 import { PersonalInfo, useDataStore } from "@/store/dataStore";
 import { Asterisk, MoveRight } from "lucide-react";
 import { useEffect } from "react";
+import { useSectionsStore } from "@/store/sectionStore";
 
 const PersonalInfoForm = () => {
-  const { saveData, data } = useDataStore();
+  const { saveData, data } = useDataStore()
+  const { updateCurrentSection } = useSectionsStore()
   const { register, handleSubmit, setValue, formState: { isValid, errors }} = useForm<z.infer<typeof personalInfoSchema>>({
     resolver: zodResolver(personalInfoSchema),
     mode: "onChange",
@@ -19,6 +21,7 @@ const PersonalInfoForm = () => {
       personalInfo: values
     });
     alert("Datos guardados correctamente!")
+    updateCurrentSection("summery")
   }
   
   useEffect(() => {
