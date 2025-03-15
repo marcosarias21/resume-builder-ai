@@ -14,10 +14,9 @@ import { useSectionsStore } from "@/store/sectionStore"
 
 const SummeryForm = () => {
   const { saveData, data } = useDataStore()
-  const { updateCurrentSection } = useSectionsStore()
+  const { updateCurrentSection, setCurrentStep, currentStep } = useSectionsStore()
   const [loading, setLoading] = useState<boolean>(false)
   const prompt = `Generate just an about me as if it were a resume based only on this data: ${data?.personalInfo?.jobTitle}`
-  const [text, setText] = useState<string | undefined>("")
   let linksArray: string[] = (Array(3).fill(null))
   const { register, handleSubmit, setValue  } = useForm<z.infer<typeof summarySchema>>({
     resolver: zodResolver(summarySchema),
@@ -37,12 +36,14 @@ const SummeryForm = () => {
     const dataAI = await generateDescription(prompt)
     if (dataAI) {
       setLoading(false)
-      setText(dataAI)
       setValue("description", dataAI)
      }
   }
 
   useEffect(() => {
+    if (data?.summery) { 
+      if (currentStep <= 1 ) setCurrentStep(1)
+    }
     if (data?.summery) {
       Object.keys(data.summery).forEach(key => 
         setValue(key as keyof Summery, data?.summery?.[key as keyof Summery])
@@ -99,11 +100,11 @@ const SummeryForm = () => {
             {loading ? (
             <div className="w-full min-h-40 p-3 rounded-md border border-gray"><p className="animate-pulse text-gray-400 text-sm font-medium">Generating text...</p></div>
             ) : (
-            <textarea id="message" className="block w-full min-h-40 p-3 text-sm text-gray-900 rounded-md border font-medium border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-green-400 focus:border-transparent focus:outline-none dark:text-white dark:placeholder-gray-400"  placeholder="Summarize your experience and key skills in a few words..." {...register("description")} value={text} onChange={(e) => setText(e.target.value)} />
+            <textarea id="message" className="block w-full min-h-40 p-3 text-sm text-gray-900 rounded-md border font-medium border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 focus:ring-2 focus:ring-green-400 focus:border-transparent focus:outline-none dark:text-white dark:placeholder-gray-400"  placeholder="Summarize your experience and key skills in a few words..." {...register("description")} />
           )}
           </div>
-          <div className="text-center">
-            <Button disabled={text ? false : true} type="submit" className="bg-green-400 text-sm font-medium" size={"sm"}><Save />Save Summery</Button>
+          <div className="text-center mt-5">
+            <Button type="submit" className="bg-green-400 text-sm font-medium" size={"sm"}><Save />Save Summery</Button>
           </div>             
           <div className="text-end mt-10">
             <Button onClick={() => updateCurrentSection("skills")} className="bg-blue-400 text-sm font-medium" size={"sm"}><MoveRightIcon />Continue</Button>

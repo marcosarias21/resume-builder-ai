@@ -10,7 +10,7 @@ import { useSectionsStore } from "@/store/sectionStore";
 
 const PersonalInfoForm = () => {
   const { saveData, data } = useDataStore()
-  const { updateCurrentSection } = useSectionsStore()
+  const { updateCurrentSection, setCurrentStep, currentStep } = useSectionsStore()
   const { register, handleSubmit, setValue, formState: { isValid, errors }} = useForm<z.infer<typeof personalInfoSchema>>({
     resolver: zodResolver(personalInfoSchema),
     mode: "onChange",
@@ -25,6 +25,9 @@ const PersonalInfoForm = () => {
   }
   
   useEffect(() => {
+    if (currentStep <= 0 ) {
+      setCurrentStep(0) 
+    }
     if (data) {
       if (data?.personalInfo) Object.keys(data?.personalInfo).forEach((key) => setValue(key as keyof PersonalInfo, data.personalInfo?.[key as keyof PersonalInfo]))
     }
