@@ -12,7 +12,7 @@ import { z } from "zod"
 
 const WorkForm = () => {
   const { saveData, data } = useDataStore()
-  const { updateCurrentSection } = useSectionsStore()
+  const { updateCurrentSection, currentStep, setCurrentStep } = useSectionsStore()
   const [loading, setLoading] = useState<boolean>(false)
   const { register, handleSubmit, control, watch, setValue, formState: { isValid } } = useForm<z.infer<typeof workSchema>>({
     resolver: zodResolver(workSchema),
@@ -40,6 +40,9 @@ const WorkForm = () => {
   }
 
   useEffect(() => {
+    if (data?.works) {
+      if (currentStep <= 4) setCurrentStep(5)
+    }
     if (data?.works) {
       Object.keys(data.works).forEach(key => 
         setValue(`works.${key}` as any, data?.works?.[key as keyof WorkObject[]])

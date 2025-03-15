@@ -3,6 +3,7 @@ import { EXAMPLES_SKILLS } from "@/helpers/examples"
 import useActionForm from "@/hooks/useActionForm"
 import { skillsSchema } from "@/schemas/formsSchema"
 import { useDataStore } from "@/store/dataStore"
+import { useSectionsStore } from "@/store/sectionStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Asterisk, MoveRight, Save } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -15,6 +16,7 @@ const SkillsForm = () => {
     mode: "onChange"
   })
   const { saveData, data } = useDataStore()
+  const { currentStep, setCurrentStep } = useSectionsStore()
   const [skillsArray, setSkillsArray] = useState(Array(3).fill(null))
   const { addArray, removeArray } = useActionForm({ array: skillsArray, setArray: setSkillsArray })
 
@@ -23,6 +25,9 @@ const SkillsForm = () => {
   }
 
   useEffect(() => {
+    if (data?.skills) {
+      if (currentStep <= 2) setCurrentStep(2)
+    }
     if (data?.skills) {
       data.skills?.forEach((skill, index) => setValue(`skills.${index}`, skill))
     }
@@ -61,7 +66,7 @@ const SkillsForm = () => {
               </Button>              
             </div>
           </div>
-          <div className="text-end">
+          <div className="text-end flex flex-col justify-end items-end h-[40%]">
             <Button className="bg-blue-400 text-sm font-medium" size={"sm"} type="button">
               <MoveRight />Continue
             </Button>
