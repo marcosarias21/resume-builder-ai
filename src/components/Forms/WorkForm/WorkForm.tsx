@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { workSchema } from "@/schemas/formsSchema"
 import { generateDescription } from "@/serivces/AIGenerativeText"
 import { useDataStore, WorkObject } from "@/store/dataStore"
+import { useSectionsStore } from "@/store/sectionStore"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Asterisk, Brain, Lightbulb, MoveRight, Save } from "lucide-react"
 import { useEffect, useState } from "react"
@@ -11,6 +12,7 @@ import { z } from "zod"
 
 const WorkForm = () => {
   const { saveData, data } = useDataStore()
+  const { updateCurrentSection } = useSectionsStore()
   const [loading, setLoading] = useState<boolean>(false)
   const { register, handleSubmit, control, watch, setValue, formState: { isValid } } = useForm<z.infer<typeof workSchema>>({
     resolver: zodResolver(workSchema),
@@ -120,7 +122,7 @@ const WorkForm = () => {
             </Button>
           </div>
           <div className="flex justify-end">
-            <Button className="bg-blue-400 text-sm font-medium text-end" size={"sm"} type="submit">
+            <Button className="bg-blue-400 text-sm font-medium text-end" size={"sm"} onClick={() => updateCurrentSection("education")}>
               <MoveRight /> Continue
             </Button>
           </div>
