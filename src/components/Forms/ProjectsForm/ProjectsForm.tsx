@@ -16,6 +16,7 @@ import { useSectionsStore } from "@/store/sectionStore";
 
 const ProjectsForm = () => {
   const { saveData, data } = useDataStore()
+  const { currentStep, setCurrentStep } = useSectionsStore()
   const { handleSubmit, register, control, watch, formState: { isValid, errors }, setValue } = useForm<z.infer<typeof ProjectsSchema>>({
     resolver: zodResolver(ProjectsSchema),
     defaultValues: { project: [{ name: "", techStack: "", listDescription: [""] }] },
@@ -65,6 +66,9 @@ const ProjectsForm = () => {
   }
 
   useEffect(() => {
+    if (data?.projects) {
+      if (currentStep <= 3) setCurrentStep(4)
+    }
     if (data?.projects) {
       Object.keys(data?.projects).forEach((key) => 
         setValue(`project.${key}` as any, data.projects?.[key as keyof Project[]])
