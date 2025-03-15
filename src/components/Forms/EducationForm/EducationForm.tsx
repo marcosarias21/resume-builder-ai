@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button'
 import { educationSchema } from '@/schemas/formsSchema'
 import { Education, useDataStore } from '@/store/dataStore'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Asterisk, MoveRight, Save } from 'lucide-react'
+import { Asterisk, Save } from 'lucide-react'
 import { useEffect } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { z } from 'zod'
@@ -97,11 +97,6 @@ const EducationForm = () => {
           <div className="flex justify-center">
             <Button className="bg-green-400 text-sm font-medium" size={"sm"} type="submit" disabled={!isValid}>
               <Save /> Save Educational Background
-            </Button>
-          </div>
-          <div className="flex justify-end">
-            <Button className="bg-blue-400 text-sm font-medium text-end" size={"sm"} type="submit">
-              <MoveRight /> Continue
             </Button>
           </div>
         </form>

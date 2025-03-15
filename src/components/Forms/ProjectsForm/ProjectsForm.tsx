@@ -12,6 +12,7 @@ import { TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui
 import { Tooltip } from "@radix-ui/react-tooltip";
 import { Spinner } from "@/components/Spinner";
 import { Project, useDataStore } from "@/store/dataStore";
+import { useSectionsStore } from "@/store/sectionStore";
 
 const ProjectsForm = () => {
   const { saveData, data } = useDataStore()
@@ -21,6 +22,7 @@ const ProjectsForm = () => {
     mode: "onChange"
   });
   const { fields, append, remove } = useFieldArray({  control, name: "project" });
+  const { updateCurrentSection } = useSectionsStore()
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [indexDescription, setIndexDescription] = useState<number>()
   const [descriptionArray, setDescriptionArray] = useState(Array(3).fill(null))
@@ -169,7 +171,7 @@ const ProjectsForm = () => {
           </Button>
         </div>
         <div className="flex justify-end mt-10">          
-          <Button className="bg-blue-400 text-sm font-medium" size={"sm"}>
+          <Button className="bg-blue-400 text-sm font-medium" onClick={() => updateCurrentSection('works')} size={"sm"}>
             <MoveRight /> Continue
           </Button>
         </div>
