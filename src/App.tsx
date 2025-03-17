@@ -7,8 +7,7 @@ import { useSectionsStore } from './store/sectionStore'
 import './App.css'
 import { SideTemplateBar } from './components/SideTemplateBar'
 import { useDataStore } from './store/dataStore'
-import { Stepper } from './components/Stepper'
-
+import { Stepper } from './components/Stepper' 
 const App = () => {
   const { currentSection, setCurrentStep } = useSectionsStore()
   const { data } = useDataStore()
@@ -23,6 +22,7 @@ const App = () => {
     });
     return () => unsubscribe();
   }, []);
+
   return (
     <section className='grid grid-cols-12 gap-4 h-dvh items-center'>
       <div className='col-span-1 flex flex-col mt-40'>
@@ -31,7 +31,7 @@ const App = () => {
           <SideTemplateBar setIsWatched={setIsWatched} isWatched={isWatched}/>
         </div>
       </div>
-      <div className={`w-full h-full  ${isWatched ? 'col-span-6': 'col-span-7'}`}>
+      <div className={`w-full h-full  ${isWatched ? 'col-span-6': 'col-span-10'}`}>
         <div className='flex flex-col h-full w-full justify-center'>
           <div className='flex justify-center'>
             <Stepper />
@@ -40,8 +40,14 @@ const App = () => {
           {sectionsData[currentSection].comp}
         </div>
       </div>
-      <div className={`h-full w-full py-5 transition-all duration-500 ease-in.out ${ isWatched ? 'col-span-5 opacity-100' : 'opacity-0'}`}>
-        {isWatched &&  <LiveTemplateCV />}    
+      {
+        isWatched &&
+        <div className={`h-full w-full py-5 transition-all duration-500 ease-in.out ${ isWatched ? 'col-span-5 opacity-100' : 'opacity-0'}`}>
+           <LiveTemplateCV />  
+        </div>
+      }
+      <div className='col-span-12'>
+        
       </div>
     </section>
   )
