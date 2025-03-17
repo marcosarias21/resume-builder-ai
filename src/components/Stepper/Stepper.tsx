@@ -2,7 +2,7 @@ import { useSectionsStore } from "@/store/sectionStore";
 
 const Stepper = () => {
   const { currentStep } = useSectionsStore()
-  const steps = [
+  const steps: string[] = [
     "Personal Details",
     "Summary",
     "Skills",
@@ -23,7 +23,7 @@ const Stepper = () => {
             >
               {index + 1}
             </div>
-            <p className="text-sm font-medium text-gray-600 mt-2 text-center">{step}</p>
+            <p className={`text-sm font-medium mt-2 text-center ${currentStep >= index ? 'text-blue-500' : 'text-gray-600'}`}>{step}</p>
           </div>
         ))}
       </div>
