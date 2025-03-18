@@ -41,9 +41,7 @@ const SummeryForm = () => {
   }
 
   useEffect(() => {
-    if (data?.summery) { 
-      if (currentStep <= 1 ) setCurrentStep(1)
-    }
+    if (currentStep <= 1 ) setCurrentStep(1)
     if (data?.summery) {
       Object.keys(data.summery).forEach(key => 
         setValue(key as keyof Summery, data?.summery?.[key as keyof Summery])

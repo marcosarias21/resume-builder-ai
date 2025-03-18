@@ -1,16 +1,23 @@
-import React, { ReactNode } from "react"
+import React, { ReactNode, useEffect } from "react"
 import { useSectionsStore } from "../../store/sectionStore"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "../ui/hover-card"
 
-type Prop = { section: string, popover: string, icon: ReactNode }
+type Prop = { section: string, popover: string, icon: ReactNode, index: number }
 
-const Sidebar: React.FC<Prop> = ({ section, popover, icon }) => {
-  const { updateCurrentSection, currentSection } = useSectionsStore()
+const Sidebar: React.FC<Prop> = ({ index, section, popover, icon }) => {
+  const { updateCurrentSection, currentSection, currentStep } = useSectionsStore()
+
+  const handleSection = () => {
+    if (currentStep >= index) {
+      updateCurrentSection(section)
+    }
+  }
+
   return (
       <HoverCard openDelay={0} closeDelay={0}>
         <div>
           <HoverCardTrigger>
-            <button onClick={() => updateCurrentSection(section)} className={`${currentSection != section && "bg-gray-400"} w-auto p-4 text-white cursor-pointer hover:bg-blue-300 hover:transition-colors, ${currentSection === section &&'bg-blue-400'}`} type="button">
+            <button onClick={handleSection} className={`${currentSection != section && "bg-gray-400"} w-auto p-4 text-white cursor-pointer hover:bg-blue-300 hover:transition-colors, ${currentSection === section &&'bg-blue-400'}`} type="button">
             {icon}
           </button>
           </HoverCardTrigger>
