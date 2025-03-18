@@ -18,5 +18,5 @@ export const useSectionsStore = create<State & Action>((set) => ({
   currentStep: 0,
   setCurrentStep: (step) => set({
     currentStep: step
-  })
+  }),
 }))
