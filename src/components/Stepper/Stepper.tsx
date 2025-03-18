@@ -10,7 +10,7 @@ const Stepper = () => {
     "Works",
     "Education",
   ];
-  
+
   return (
     <div className="w-full max-w-2xl pr-4">
       <div className="flex justify-between items-center mb-8">

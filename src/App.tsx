@@ -14,7 +14,8 @@ const App = () => {
   const [isWatched, setIsWatched] = useState(false)
 
   useEffect(() => {
-    if (data) setCurrentStep(5)
+    // console.log(Object.values(data))
+    // if (Object.entries(data)) setCurrentStep(5)
     const unsubscribe = useDataStore.subscribe((state) => {
       const existingData = JSON.parse(localStorage.getItem("resumeData") || "{}");
       const newData = { ...existingData, ...state.data }
@@ -24,30 +25,33 @@ const App = () => {
   }, []);
 
   return (
-    <section className='grid grid-cols-12 gap-4 h-dvh items-center'>
-      <div className='col-span-1 flex flex-col mt-40'>
-        {sidebarInfo.map(info => <Sidebar key={info.id} {...info} />)}
-        <div>
-          <SideTemplateBar setIsWatched={setIsWatched} isWatched={isWatched}/>
-        </div>
-      </div>
-      <div className={`w-full h-full  ${isWatched ? 'col-span-6': 'col-span-10'}`}>
-        <div className='flex flex-col h-full w-full justify-center'>
-          <div className='flex justify-center'>
-            <Stepper />
+    <section className='h-[100vh]'>
+      <div className='h-full grid grid-cols-12 items-center'>
+        <div className='col-span-1 flex flex-col mt-40'>
+          {sidebarInfo.map((info, index) => <Sidebar key={info.id} {...info} index={index} />)}
+          <div>
+            <SideTemplateBar setIsWatched={setIsWatched} isWatched={isWatched}/>
           </div>
-          <h2 className='text-3xl font-bold text-gray-700'>{sectionsData[currentSection].title}</h2>
-          {sectionsData[currentSection].comp}
         </div>
-      </div>
-      {
-        isWatched &&
-        <div className={`h-full w-full py-5 transition-all duration-500 ease-in.out ${ isWatched ? 'col-span-5 opacity-100' : 'opacity-0'}`}>
-           <LiveTemplateCV />  
+        <div className={`flex items-center  ${isWatched ? 'col-span-6': 'col-span-10'}`}>
+          <div className='flex flex-col w-full justify-center'>
+            <div className='flex justify-center'>
+              <Stepper />
+            </div>
+            <div className='h-full'>
+              <h2 className='text-3xl font-bold text-gray-700'>{sectionsData[currentSection].title}</h2>
+              <div className='h-full'>
+                {sectionsData[currentSection].comp}
+              </div>
+            </div>
+          </div>
         </div>
-      }
-      <div className='col-span-12'>
-        
+        {
+          isWatched &&
+          <div className={`h-full w-full py-5 transition-all duration-500 ease-in.out ${ isWatched ? 'col-span-5 opacity-100' : 'opacity-0'}`}>
+            <LiveTemplateCV />  
+          </div>
+        }     
       </div>
     </section>
   )
