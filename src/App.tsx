@@ -26,23 +26,19 @@ const App = () => {
 
   return (
     <section className='h-[100vh]'>
-      <div className='h-full grid grid-cols-12 items-center'>
+      <div className='h-full grid grid-cols-12 gap-4 items-center'>
         <div className='col-span-1 flex flex-col mt-40'>
           {sidebarInfo.map((info, index) => <Sidebar key={info.id} {...info} index={index} />)}
           <div>
             <SideTemplateBar setIsWatched={setIsWatched} isWatched={isWatched}/>
           </div>
         </div>
-        <div className={`flex items-center  ${isWatched ? 'col-span-6': 'col-span-10'}`}>
-          <div className='flex flex-col w-full justify-center'>
-            <div className='flex justify-center'>
+        <div className={`flex flex-col justify-center h-full ${isWatched ? 'col-span-6': 'col-span-10'} h-full`}>
+          <div className='flex flex-col h-full'>
+            <div className='h-full flex flex-col justify-center' key={currentSection}>
               <Stepper />
-            </div>
-            <div className='h-full'>
               <h2 className='text-3xl font-bold text-gray-700'>{sectionsData[currentSection].title}</h2>
-              <div className='h-full'>
-                {sectionsData[currentSection].comp}
-              </div>
+              {sectionsData[currentSection].comp}
             </div>
           </div>
         </div>

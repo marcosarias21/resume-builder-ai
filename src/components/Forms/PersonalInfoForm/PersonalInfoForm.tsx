@@ -34,7 +34,7 @@ const PersonalInfoForm = () => {
   }, [])
 
   return (
-    <div className="min-h-[60%] bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-lg rounded-lg p-6 lg:p-10 w-full">
+    <div className="min-h-[70%] bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-lg rounded-lg p-6 lg:p-10 w-full">
       <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col sm:grid-cols-2 gap-6 h-full w-full">
         <div className="h-full grid grid-cols-2 gap-x-10 px-10">
           <div className="mt-4">

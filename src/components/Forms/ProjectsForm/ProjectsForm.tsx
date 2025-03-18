@@ -77,7 +77,7 @@ const ProjectsForm = () => {
   }, [])
 
   return (
-    <div className="min-h-[60%] w-full bg-white border border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-xl rounded-lg p-6 lg:p-10">
+    <div className="min-h-[70%] bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-lg rounded-lg p-6 lg:p-10 w-full">
       <form className="gap-6 max-h-[485px] overflow-y-auto custom-scrollbar pr-5" onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="flex justify-between items-center my-4">
