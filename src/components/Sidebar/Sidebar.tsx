@@ -8,9 +8,9 @@ const Sidebar: React.FC<Prop> = ({ index, section, popover, icon }) => {
   const { updateCurrentSection, currentSection, currentStep } = useSectionsStore()
 
   const handleSection = () => {
-    if (currentStep >= index) {
+    // if (currentStep >= index) {
       updateCurrentSection(section)
-    }
+    // }
   }
 
   return (
