@@ -14,7 +14,8 @@ import { z } from "zod";
 
 const WorkForm = () => {
   const { saveData, data } = useDataStore();
-  const { updateCurrentSection, setCurrentStep } = useSectionsStore();
+  const { updateCurrentSection, currentStep, setCurrentStep } =
+    useSectionsStore();
   const { generateText, loading } = useGenerativeDescription();
   const {
     register,
@@ -50,7 +51,9 @@ const WorkForm = () => {
   };
 
   useEffect(() => {
-    data?.works && setCurrentStep(5);
+    if (data?.works) {
+      if (currentStep <= 4) setCurrentStep(5);
+    }
   }, []);
 
   useSetFormValues("works", "works", setValue);

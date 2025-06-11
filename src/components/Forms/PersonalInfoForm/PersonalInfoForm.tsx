@@ -11,8 +11,9 @@ import { SUCCESS_SAVE_PERSONAL_INFO } from "@/constants/alerts/alerts-succesfull
 import { useSetFormValue } from "@/hooks/useSetFormValues";
 
 const PersonalInfoForm = () => {
-  const { saveData, data } = useDataStore();
-  const { updateCurrentSection, setCurrentStep } = useSectionsStore();
+  const { saveData } = useDataStore();
+  const { updateCurrentSection, setCurrentStep, currentStep } =
+    useSectionsStore();
   const {
     register,
     handleSubmit,
@@ -32,9 +33,10 @@ const PersonalInfoForm = () => {
   };
 
   useEffect(() => {
-    data?.personalInfo && setCurrentStep(1);
+    if (currentStep <= 0) {
+      setCurrentStep(0);
+    }
   }, []);
-
   useSetFormValue("personalInfo", setValue);
 
   return (
