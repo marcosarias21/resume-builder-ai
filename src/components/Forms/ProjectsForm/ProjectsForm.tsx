@@ -4,7 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProjectsSchema } from "@/schemas/formsSchema";
 import { EXAMPLES_PROJECTS } from "@/helpers/examples";
-import { generateDescription } from "@/serivces/AIGenerativeText";
+import { generateDescription } from "@/services/AIGenerativeText";
 import useActionForm from "@/hooks/useActionForm";
 import { Button } from "@/components/ui/button";
 import {

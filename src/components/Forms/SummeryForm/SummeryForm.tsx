@@ -12,7 +12,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Spinner } from "../../Spinner";
-import { generateDescription } from "@/serivces/AIGenerativeText";
+import { generateDescription } from "@/services/AIGenerativeText";
 import { Brain, MoveRightIcon, Save } from "lucide-react";
 import { EXAMPLES_LINKS, EXAMPLES_NETWORK } from "@/helpers/examples";
 import { useSectionsStore } from "@/store/sectionStore";
