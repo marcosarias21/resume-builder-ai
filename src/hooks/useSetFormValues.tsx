@@ -23,11 +23,13 @@ export const useSetFormValue = <T extends FieldValues>(
   setValue: UseFormSetValue<T>
 ) => {
   const { data }: any = useDataStore();
+  console.log(data[keyData]);
 
   useEffect(() => {
-    if (data?.keyData)
-      Object.keys(data?.keyData).forEach((key) =>
-        setValue(key as any, data.keyData?.[key as keyof any])
+    if (data?.[keyData]) {
+      Object.keys(data[keyData]).forEach((key) =>
+        setValue(key as any, data?.[keyData]?.[key as keyof any])
       );
-  }, [keyData]);
+    }
+  }, [data, keyData]);
 };
