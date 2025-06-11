@@ -1,13 +1,14 @@
 import { Spinner } from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { WORK_PROMPT } from "@/constants/prompts/prompts-to-ai";
+import { useSetFormValues } from "@/hooks/useSetFormValues";
 import { workSchema } from "@/schemas/formsSchema";
-import { generateDescription } from "@/serivces/AIGenerativeText";
-import { useDataStore, WorkObject } from "@/store/dataStore";
+import { useGenerativeDescription } from "@/services/useGenerateDescription";
+import { useDataStore } from "@/store/dataStore";
 import { useSectionsStore } from "@/store/sectionStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Asterisk, Brain, Lightbulb, MoveRight, Save } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -15,7 +16,7 @@ const WorkForm = () => {
   const { saveData, data } = useDataStore();
   const { updateCurrentSection, currentStep, setCurrentStep } =
     useSectionsStore();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { generateText, loading } = useGenerativeDescription();
   const {
     register,
     handleSubmit,
@@ -41,12 +42,10 @@ const WorkForm = () => {
     saveData(values);
   };
 
-  const generateText = async (index: number) => {
-    setLoading(true);
+  const generativeText = async (index: number) => {
     const prompt = `${WORK_PROMPT} ${values.works[index].workCompany} ${values.works[index].position}`;
-    const data = await generateDescription(prompt);
+    const data = await generateText(prompt);
     if (data) {
-      setLoading(false);
       setValue(`works.${index}.summery`, data);
     }
   };
@@ -55,15 +54,9 @@ const WorkForm = () => {
     if (data?.works) {
       if (currentStep <= 4) setCurrentStep(5);
     }
-    if (data?.works) {
-      Object.keys(data.works).forEach((key) =>
-        setValue(
-          `works.${key}` as any,
-          data?.works?.[key as keyof WorkObject[]]
-        )
-      );
-    }
   }, []);
+
+  useSetFormValues("works", "works", setValue);
 
   return (
     <div className="min-h-[70%] bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-lg rounded-lg p-6 lg:p-10 w-full">
@@ -158,7 +151,7 @@ const WorkForm = () => {
                         <Asterisk className="text-red-500" size={14} />
                       </span>
                     </label>
-                    <Button type="button" onClick={() => generateText(index)}>
+                    <Button type="button" onClick={() => generativeText(index)}>
                       <Brain />
                       Generate from AI {loading && <Spinner />}
                     </Button>
