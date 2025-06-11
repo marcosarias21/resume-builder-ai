@@ -21,7 +21,7 @@ const SkillsForm = () => {
     mode: "onChange",
   });
   const { saveData, data } = useDataStore();
-  const { setCurrentStep } = useSectionsStore();
+  const { currentStep, setCurrentStep } = useSectionsStore();
   const [skillsArray, setSkillsArray] = useState(Array(3).fill(null));
   const { addArray, removeArray } = useActionForm({
     array: skillsArray,
@@ -33,8 +33,9 @@ const SkillsForm = () => {
   };
 
   useEffect(() => {
-    data?.skills && setCurrentStep(3);
-
+    if (data?.skills) {
+      if (currentStep <= 2) setCurrentStep(2);
+    }
     if (data?.skills) {
       data.skills?.forEach((skill, index) =>
         setValue(`skills.${index}`, skill)
