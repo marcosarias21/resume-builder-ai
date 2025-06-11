@@ -29,7 +29,7 @@ import { useSetFormValues } from "@/hooks/useSetFormValues";
 
 const ProjectsForm = () => {
   const { saveData, data } = useDataStore();
-  const { currentStep, setCurrentStep } = useSectionsStore();
+  const { setCurrentStep } = useSectionsStore();
   const {
     handleSubmit,
     register,
@@ -94,9 +94,7 @@ const ProjectsForm = () => {
   };
 
   useEffect(() => {
-    if (data?.projects) {
-      if (currentStep <= 3) setCurrentStep(4);
-    }
+    data?.projects && setCurrentStep(4);
   }, []);
 
   useSetFormValues("projects", "project", setValue);
