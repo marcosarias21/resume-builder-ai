@@ -4,7 +4,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ProjectsSchema } from "@/schemas/formsSchema";
 import { EXAMPLES_PROJECTS } from "@/helpers/examples";
-import { generateDescription } from "@/services/AIGenerativeText";
 import useActionForm from "@/hooks/useActionForm";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,10 +20,12 @@ import {
 } from "@/components/ui/tooltip";
 import { Tooltip } from "@radix-ui/react-tooltip";
 import { Spinner } from "@/components/Spinner";
-import { Project, useDataStore } from "@/store/dataStore";
+import { useDataStore } from "@/store/dataStore";
 import { useSectionsStore } from "@/store/sectionStore";
 import { PROJECT_PROMPT } from "@/constants/prompts/prompts-to-ai";
 import { ALERT_ERROR_PROJECT } from "@/constants/alerts/alerts-errors";
+import { useGenerativeDescription } from "@/services/useGenerateDescription";
+import { useSetFormValues } from "@/hooks/useSetFormValues";
 
 const ProjectsForm = () => {
   const { saveData, data } = useDataStore();
@@ -51,13 +52,14 @@ const ProjectsForm = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [indexDescription, setIndexDescription] = useState<number>();
   const [descriptionArray, setDescriptionArray] = useState(Array(3).fill(null));
-  const [loading, setLoading] = useState<boolean>(false);
+  const { loading, generateText } = useGenerativeDescription();
   const values = watch();
   const prompt = `${PROJECT_PROMPT} ${data?.projects?.[currentIndex]}`;
   const { addArray, removeArray } = useActionForm({
     array: descriptionArray,
     setArray: setDescriptionArray,
   });
+
   const onSubmit = (values: z.infer<typeof ProjectsSchema>) => {
     const filteredValues = values.project.map((project) => ({
       ...project,
@@ -84,12 +86,10 @@ const ProjectsForm = () => {
   };
 
   const betterTextWithAI = async (text: string, index: number) => {
-    setLoading(true);
     setIndexDescription(index);
-    const dataAI = await generateDescription(text);
+    const dataAI = await generateText(text);
     if (dataAI) {
       setValue(`project.${currentIndex}.listDescription.${index}`, dataAI);
-      setLoading(false);
     }
   };
 
@@ -97,15 +97,9 @@ const ProjectsForm = () => {
     if (data?.projects) {
       if (currentStep <= 3) setCurrentStep(4);
     }
-    if (data?.projects) {
-      Object.keys(data?.projects).forEach((key) =>
-        setValue(
-          `project.${key}` as any,
-          data.projects?.[key as keyof Project[]]
-        )
-      );
-    }
   }, []);
+
+  useSetFormValues("projects", "project", setValue);
 
   return (
     <div className="min-h-[70%] bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-lg rounded-lg p-6 lg:p-10 w-full">
