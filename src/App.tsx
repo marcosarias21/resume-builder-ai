@@ -4,10 +4,10 @@ import { Sidebar } from "./components/Sidebar";
 import { sectionsData } from "./helpers/sectionsData";
 import { sidebarInfo } from "./helpers/sidebarInfo";
 import { useSectionsStore } from "./store/sectionStore";
-import "./App.css";
 import { SideTemplateBar } from "./components/SideTemplateBar";
 import { useDataStore } from "./store/dataStore";
 import { Stepper } from "./components/Stepper";
+import "./App.css";
 
 const App = () => {
   const { currentSection, setCurrentStep } = useSectionsStore();

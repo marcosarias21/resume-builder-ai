@@ -2,9 +2,9 @@ import { useForm } from "react-hook-form";
 import { summarySchema } from "@/schemas/formsSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Summery, useDataStore } from "@/store/dataStore";
+import { useDataStore } from "@/store/dataStore";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Tooltip,
   TooltipContent,
@@ -12,24 +12,24 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Spinner } from "../../Spinner";
-import { generateDescription } from "@/services/AIGenerativeText";
 import { Brain, MoveRightIcon, Save } from "lucide-react";
 import { EXAMPLES_LINKS, EXAMPLES_NETWORK } from "@/helpers/examples";
 import { useSectionsStore } from "@/store/sectionStore";
 import { SUMMERY_PROMPT } from "@/constants/prompts/prompts-to-ai";
+import { useSetFormValue } from "@/hooks/useSetFormValues";
+import { useGenerativeDescription } from "@/services/useGenerateDescription";
 
 const SummeryForm = () => {
   const { saveData, data } = useDataStore();
+  const { generateText, loading } = useGenerativeDescription();
   const { updateCurrentSection, setCurrentStep, currentStep } =
     useSectionsStore();
-  const [loading, setLoading] = useState<boolean>(false);
-  const prompt = `${SUMMERY_PROMPT} ${data?.personalInfo?.jobTitle}`;
-  let linksArray: string[] = Array(3).fill(null);
   const { register, handleSubmit, setValue } = useForm<
     z.infer<typeof summarySchema>
   >({
     resolver: zodResolver(summarySchema),
   });
+  let linksArray: string[] = Array(3).fill(null);
 
   const onSubmit = (values: z.infer<typeof summarySchema>) => {
     saveData({
@@ -40,23 +40,18 @@ const SummeryForm = () => {
     });
   };
 
-  const generateText = async (prompt: string) => {
-    setLoading(true);
-    const dataAI = await generateDescription(prompt);
+  const generativeText = async () => {
+    const prompt = `${SUMMERY_PROMPT} ${data?.personalInfo?.jobTitle}`;
+    const dataAI = await generateText(prompt);
     if (dataAI) {
-      setLoading(false);
       setValue("description", dataAI);
     }
   };
 
   useEffect(() => {
     if (currentStep <= 1) setCurrentStep(1);
-    if (data?.summery) {
-      Object.keys(data.summery).forEach((key) =>
-        setValue(key as keyof Summery, data?.summery?.[key as keyof Summery])
-      );
-    }
   }, []);
+  useSetFormValue("summery", setValue);
 
   return (
     <div className="min-h-[70%] bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-lg rounded-lg p-6 lg:p-10 w-full">
@@ -114,7 +109,7 @@ const SummeryForm = () => {
             </div>
             <div className="flex items-center gap-2">
               <Button
-                onClick={() => generateText(prompt)}
+                onClick={generativeText}
                 className="text-dark border-1 text-white hover:text-white"
               >
                 <Brain size={"20"} /> Generate from AI{" "}
