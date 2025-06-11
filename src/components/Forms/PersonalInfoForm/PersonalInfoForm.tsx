@@ -3,14 +3,15 @@ import { personalInfoSchema } from "../../../schemas/formsSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "../../ui/button";
-import { PersonalInfo, useDataStore } from "@/store/dataStore";
+import { useDataStore } from "@/store/dataStore";
 import { Asterisk, MoveRight } from "lucide-react";
 import { useEffect } from "react";
 import { useSectionsStore } from "@/store/sectionStore";
 import { SUCCESS_SAVE_PERSONAL_INFO } from "@/constants/alerts/alerts-succesfull";
+import { useSetFormValue } from "@/hooks/useSetFormValues";
 
 const PersonalInfoForm = () => {
-  const { saveData, data } = useDataStore();
+  const { saveData } = useDataStore();
   const { updateCurrentSection, setCurrentStep, currentStep } =
     useSectionsStore();
   const {
@@ -35,16 +36,8 @@ const PersonalInfoForm = () => {
     if (currentStep <= 0) {
       setCurrentStep(0);
     }
-    if (data) {
-      if (data?.personalInfo)
-        Object.keys(data?.personalInfo).forEach((key) =>
-          setValue(
-            key as keyof PersonalInfo,
-            data.personalInfo?.[key as keyof PersonalInfo]
-          )
-        );
-    }
   }, []);
+  useSetFormValue("personalInfo", setValue);
 
   return (
     <div className="min-h-[70%] bg-white border-1 border-gray-300 border-t-blue-400 border-t-4 dark:bg-neutral-800 shadow-lg rounded-lg p-6 lg:p-10 w-full">
