@@ -2,7 +2,7 @@ import { Spinner } from "@/components/Spinner";
 import { Button } from "@/components/ui/button";
 import { WORK_PROMPT } from "@/constants/prompts/prompts-to-ai";
 import { workSchema } from "@/schemas/formsSchema";
-import { generateDescription } from "@/serivces/AIGenerativeText";
+import { generateDescription } from "@/services/AIGenerativeText";
 import { useDataStore, WorkObject } from "@/store/dataStore";
 import { useSectionsStore } from "@/store/sectionStore";
 import { zodResolver } from "@hookform/resolvers/zod";
