@@ -29,7 +29,7 @@ import { useSetFormValues } from "@/hooks/useSetFormValues";
 
 const ProjectsForm = () => {
   const { saveData, data } = useDataStore();
-  const { currentStep, setCurrentStep } = useSectionsStore();
+  const { setCurrentStep } = useSectionsStore();
   const {
     handleSubmit,
     register,
@@ -52,9 +52,9 @@ const ProjectsForm = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [indexDescription, setIndexDescription] = useState<number>();
   const [descriptionArray, setDescriptionArray] = useState(Array(3).fill(null));
+  const prompt = `${PROJECT_PROMPT} ${data?.projects?.[currentIndex]}`;
   const { loading, generateText } = useGenerativeDescription();
   const values = watch();
-  const prompt = `${PROJECT_PROMPT} ${data?.projects?.[currentIndex]}`;
   const { addArray, removeArray } = useActionForm({
     array: descriptionArray,
     setArray: setDescriptionArray,
@@ -94,9 +94,7 @@ const ProjectsForm = () => {
   };
 
   useEffect(() => {
-    if (data?.projects) {
-      if (currentStep <= 3) setCurrentStep(4);
-    }
+    data?.projects && setCurrentStep(4);
   }, []);
 
   useSetFormValues("projects", "project", setValue);

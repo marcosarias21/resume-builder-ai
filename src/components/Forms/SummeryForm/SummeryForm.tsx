@@ -22,8 +22,7 @@ import { useGenerativeDescription } from "@/services/useGenerateDescription";
 const SummeryForm = () => {
   const { saveData, data } = useDataStore();
   const { generateText, loading } = useGenerativeDescription();
-  const { updateCurrentSection, setCurrentStep, currentStep } =
-    useSectionsStore();
+  const { updateCurrentSection, setCurrentStep } = useSectionsStore();
   const { register, handleSubmit, setValue } = useForm<
     z.infer<typeof summarySchema>
   >({
@@ -49,7 +48,7 @@ const SummeryForm = () => {
   };
 
   useEffect(() => {
-    if (currentStep <= 1) setCurrentStep(1);
+    data?.summery && setCurrentStep(2);
   }, []);
   useSetFormValue("summery", setValue);
 
