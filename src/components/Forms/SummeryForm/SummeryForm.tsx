@@ -37,6 +37,7 @@ const SummeryForm = () => {
         socialMedia: values.socialMedia,
       },
     });
+    setCurrentStep(2);
   };
 
   const generativeText = async () => {
@@ -47,9 +48,6 @@ const SummeryForm = () => {
     }
   };
 
-  useEffect(() => {
-    data?.summery && setCurrentStep(2);
-  }, []);
   useSetFormValue("summery", setValue);
 
   return (

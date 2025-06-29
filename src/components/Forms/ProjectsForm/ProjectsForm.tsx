@@ -72,6 +72,7 @@ const ProjectsForm = () => {
     saveData({
       projects: filteredValues,
     });
+    setCurrentStep(4);
   };
 
   const betterTextWithAI = async (text: string, index: number) => {
@@ -81,10 +82,6 @@ const ProjectsForm = () => {
       setValue(`project.${currentIndex}.listDescription.${index}`, dataAI);
     }
   };
-
-  useEffect(() => {
-    data?.projects && setCurrentStep(4);
-  }, []);
 
   useSetFormValues("projects", "project", setValue);
 

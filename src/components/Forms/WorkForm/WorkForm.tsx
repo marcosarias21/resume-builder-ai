@@ -39,6 +39,7 @@ const WorkForm = () => {
 
   const onSubmit = (values: z.infer<typeof workSchema>) => {
     saveData(values);
+    setCurrentStep(5);
   };
 
   const generativeText = async (index: number) => {
@@ -48,10 +49,6 @@ const WorkForm = () => {
       setValue(`works.${index}.summery`, data);
     }
   };
-
-  useEffect(() => {
-    data?.works && setCurrentStep(5);
-  }, []);
 
   useSetFormValues("works", "works", setValue);
 
