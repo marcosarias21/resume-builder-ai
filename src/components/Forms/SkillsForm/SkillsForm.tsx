@@ -30,11 +30,10 @@ const SkillsForm = () => {
 
   const onSubmit = (values: z.infer<typeof skillsSchema>) => {
     saveData(values);
+    setCurrentStep(3);
   };
 
   useEffect(() => {
-    data?.skills && setCurrentStep(3);
-
     if (data?.skills) {
       data.skills?.forEach((skill, index) =>
         setValue(`skills.${index}`, skill)

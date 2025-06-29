@@ -15,6 +15,7 @@ const App = () => {
   const [isWatched, setIsWatched] = useState(false);
 
   useEffect(() => {
+    setCurrentStep(Object.entries(data ?? []).length);
     if (Object.entries(data ?? []).length > 5) setCurrentStep(5);
     const unsubscribe = useDataStore.subscribe((state) => {
       const existingData = JSON.parse(

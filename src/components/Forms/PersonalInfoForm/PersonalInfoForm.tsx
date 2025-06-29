@@ -29,11 +29,9 @@ const PersonalInfoForm = () => {
     });
     alert(SUCCESS_SAVE_PERSONAL_INFO);
     updateCurrentSection("summery");
+    setCurrentStep(1);
   };
 
-  useEffect(() => {
-    data?.personalInfo && setCurrentStep(1);
-  }, []);
   useSetFormValue("personalInfo", setValue);
 
   return (
