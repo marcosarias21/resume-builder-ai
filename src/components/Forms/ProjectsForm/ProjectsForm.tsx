@@ -23,9 +23,9 @@ import { Spinner } from "@/components/Spinner";
 import { useDataStore } from "@/store/dataStore";
 import { useSectionsStore } from "@/store/sectionStore";
 import { PROJECT_PROMPT } from "@/constants/prompts/prompts-to-ai";
-import { ALERT_ERROR_PROJECT } from "@/constants/alerts/alerts-errors";
 import { useGenerativeDescription } from "@/services/useGenerateDescription";
 import { useSetFormValues } from "@/hooks/useSetFormValues";
+import useActionProjectForm from "@/hooks/useActionProjectForm";
 
 const ProjectsForm = () => {
   const { saveData, data } = useDataStore();
@@ -40,16 +40,20 @@ const ProjectsForm = () => {
   } = useForm<z.infer<typeof ProjectsSchema>>({
     resolver: zodResolver(ProjectsSchema),
     defaultValues: {
-      project: [{ name: "", techStack: "", listDescription: [""] }],
+      project: [{ name: "", techStack: "", listDescription: undefined }],
     },
     mode: "onChange",
   });
   const { fields, append, remove } = useFieldArray({
-    control,
     name: "project",
+    control,
+  });
+  const { addProject, currentIndex, removeProject } = useActionProjectForm({
+    fields,
+    append,
+    remove,
   });
   const { updateCurrentSection } = useSectionsStore();
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [indexDescription, setIndexDescription] = useState<number>();
   const [descriptionArray, setDescriptionArray] = useState(Array(3).fill(null));
   const prompt = `${PROJECT_PROMPT} ${data?.projects?.[currentIndex]}`;
@@ -68,21 +72,6 @@ const ProjectsForm = () => {
     saveData({
       projects: filteredValues,
     });
-  };
-
-  const addProject = () => {
-    if (fields.length < 3) {
-      append({ name: "", techStack: "", listDescription: ["", "", ""] });
-      setCurrentIndex(currentIndex + 1);
-    } else {
-      alert(ALERT_ERROR_PROJECT);
-      return;
-    }
-  };
-
-  const removeProject = () => {
-    remove(currentIndex);
-    setCurrentIndex(currentIndex - 1);
   };
 
   const betterTextWithAI = async (text: string, index: number) => {
